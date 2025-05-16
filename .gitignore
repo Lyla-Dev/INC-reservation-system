@@ -1,0 +1,42 @@
+# ------------------------------
+# Python 백엔드 관련
+# ------------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.log
+*.db
+*.sqlite3
+
+# 가상환경 (공유 X)
+venv/
+backend/venv/
+
+# 환경 변수 파일 (개인 설정용)
+.env
+backend/.env
+
+# ------------------------------
+# Node.js 프론트엔드 관련
+# ------------------------------
+node_modules/
+frontend/node_modules/
+
+# 환경 변수 파일 (예: API 키 등)
+frontend/.env
+.env.*
+
+# 빌드 결과물 (공유 X)
+frontend/dist/
+dist/
+build/
+
+# ------------------------------
+# IDE/OS 관련 파일 (개발자 개인 설정)
+# ------------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
