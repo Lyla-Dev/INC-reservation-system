@@ -1,18 +1,25 @@
 import RoundedBox from './loginBackground';
+import { Link } from 'react-router-dom';
 
-function SignUp() {
+function SignUpButton() {
   return (
     <div style={{
       display: 'flex',
       flexDirection: 'row',
-      justifyContent: 'center', 
-      color: 'gray',
-      gap: '4px',
+      justifyContent: 'center',
+      alignItems: 'center',
+      color: 'black',
+      gap: '30px',
       marginTop: '12px',
-      fontSize: '14px',
     }}>
-    <h5>처음이신가요?</h5>
-    <h5>회원가입</h5>
+    <span style={{ 
+      fontSize: '12px', 
+      fontWeight: 'bold',
+      color: 'gray'
+      }}>처음이신가요?</span>
+    <Link to="/signup" style={{ fontWeight: 'bold', color: 'gray', textDecoration: 'underline', fontSize: '12px'}}>
+        회원가입하기
+      </Link>
   </div>
   );
 }
@@ -59,12 +66,17 @@ function LoginForm() {
     fontSize: '16px',
     fontWeight: 'bold',
     cursor: 'pointer',
-    marginTop: '12px',
+    marginTop: '40px',
     alignSelf: 'center'
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div style={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      justifyContent: 'center',
+      alignItems: 'center'
+      }}>
     <RoundedBox>
       <input
         type="text"
@@ -79,7 +91,7 @@ function LoginForm() {
         style={bottomInputStyle}
       />
       <button style={buttonStyle}>로그인</button>
-      <SignUp />
+      <SignUpButton />
     </RoundedBox>
     </div>
   );

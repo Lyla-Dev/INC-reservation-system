@@ -8,6 +8,7 @@ function RoundedBox({ children }) {
       padding: '20px',
       display: 'flex',
       flexDirection: 'column',
+      justifyContent: 'center'
     };
   
     return <div style={boxStyle}>{children}</div>;
