@@ -27,10 +27,10 @@ const PageLayout = () => {
   return (
     <div style={{
       backgroundColor: '#DFF0FA',
-      padding: '16px 24px',
+      padding: '16px 24px', /*상단바 넓이이*/
       display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
+      justifyContent: 'space-between',  /*양 끝에 붙이고 가운데 띄움*/
+      alignItems: 'center', /*세로방향 중앙 정렬*/
     }}>
       {/* 로고 + 현재 페이지 */}
       <div style={{
