@@ -4,7 +4,7 @@ const MainPage = () => {
   const boxStyle = {
     width: '300px',
     height: '300px',
-    backgroundColor: '#e0f0ff',
+    backgroundColor: ' rgba(150, 178, 240, 0.84)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -20,7 +20,7 @@ const MainPage = () => {
     ...boxStyle,
     transform: 'scale(1.05)',
     boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.2)',
-    backgroundColor: ' rgba(78, 145, 239, 0.72)'
+    backgroundColor: ' rgb(115, 157, 220)'
   };
 
   const [hoveredIndex, setHoveredIndex] = React.useState(null);
@@ -29,6 +29,7 @@ const MainPage = () => {
 
   return (
     <div style = {{
+        backgroundColor: '#F2F3F7',
         display: 'flex',
         justifyContent: 'center',
         gap: '80px',
