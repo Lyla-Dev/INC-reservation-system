@@ -1,22 +1,40 @@
 # src/database/user_queries.py
-from flask import g # g 객체를 통해 현재 요청의 DB 연결에 접근
+from flask import g
 from src.models.user_model import User
+from werkzeug.security import generate_password_hash, check_password_hash # 추가
 
-def get_all_users():
+def get_user_by_username(username):
+    """사용자 이름으로 사용자 정보를 조회합니다."""
     cursor = g.db.cursor()
-    cursor.execute("SELECT id, username, email FROM users;")
-    users_data = cursor.fetchall()
-    users = [User(row['id'], row['username'], row['email']) for row in users_data]
-    return users
+    cursor.execute("SELECT id, username, password_hash, email, full_name, phone_number FROM users WHERE username = ?", (username,))
+    user_data = cursor.fetchone()
+    if user_data:
+        return User(
+            id=user_data['id'],
+            username=user_data['username'],
+            email=user_data['email'],
+            password_hash=user_data['password_hash'] if 'password_hash' in user_data.keys() else None # 스키마 변경 대비
+        )
+    return None
 
-def create_user(username, email):
+def create_user(username, password, email=None, full_name=None, phone_number=None):
+    """새로운 사용자를 생성하고 비밀번호를 해싱하여 저장합니다."""
+    hashed_password = generate_password_hash(password)
     cursor = g.db.cursor()
     try:
-        cursor.execute("INSERT INTO users (username, email) VALUES (?, ?)", (username, email))
-        g.db.commit() # 변경사항 커밋
-        user_id = cursor.lastrowid # SQLite에서 마지막으로 삽입된 행의 ID를 가져옴
-        return User(user_id, username, email)
+        cursor.execute(
+            "INSERT INTO users (username, password_hash, email, full_name, phone_number) VALUES (?, ?, ?, ?, ?)",
+            (username, hashed_password, email, full_name, phone_number)
+        )
+        g.db.commit()
+        user_id = cursor.lastrowid
+        return User(id=user_id, username=username, email=email)
     except Exception as e:
         print(f"사용자 생성 오류: {e}")
-        g.db.rollback() # 오류 발생 시 롤백
+        g.db.rollback()
         return None
+
+# 비밀번호 검증 함수 (추가)
+def verify_password(stored_password_hash, provided_password):
+    """저장된 해시된 비밀번호와 제공된 비밀번호를 비교합니다."""
+    return check_password_hash(stored_password_hash, provided_password)
