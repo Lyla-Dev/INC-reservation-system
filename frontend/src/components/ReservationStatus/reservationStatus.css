@@ -17,26 +17,20 @@
     box-sizing: border-box; 
     background-color: #fff; 
     padding: 0 20px; 
+    margin-bottom: 80px;
   }
   
   .reservation-header {
     display: flex; 
     width: 100%;
+    font-family: 'content';
     font-size: 2.5em; 
     font-weight: lighter;
   }
 
-  /* 날짜와 시간 사이에 간격 추가 (선택 사항, 필요에 따라) */
   .reservation-date {
-      margin-right: 80px; 
+      margin-right: 20px; 
   }
-
-  /* .reservation-time {
-    display: flex;
-    justify-content: center; 
-    font-size: 30px;
-  } */
-
   .reservation-details {
     box-sizing: border-box;
     width: 100%;
@@ -44,6 +38,7 @@
   
   .reservation-details p {
     margin: 0px 0;
+    font-family: 'content';
     font-size: 1em;
     color: #333;
   }
@@ -52,8 +47,8 @@
     display: flex;
     justify-content: space-between; 
     align-items: center;
+    font-family: 'content';
     font-size: 1em;
-    color: #555;
   }
   
   .cancel-button {
@@ -61,6 +56,7 @@
     border: none;
     color: #888;
     cursor: pointer;
+    font-family: 'content';
     font-size: 0.9em;
     text-decoration: underline;
     padding: 0;
@@ -70,8 +66,6 @@
     color: #000;
   }
 
-  /* 핵심 변경: reservation-header의 넓이를 고정시키는 방법 */
-  /* 방법 1: grid를 사용하여 명시적인 열 정의 */
   .reservation-card {
       display: grid; /* reservation-card를 그리드 컨테이너로 만듭니다. */
       grid-template-columns: 1fr; /* 단일 열 */
@@ -89,22 +83,14 @@
       width: auto;
   }
 
-  /* reservation-header 내부의 날짜와 시간을 분리하는 경우 */
   .reservation-header {
       display: flex;
-      justify-content: space-between; /* 날짜와 시간을 양쪽으로 벌립니다. */
-      /* gap: 10px; */ /* 만약 날짜와 시간 사이에 gap이 필요하면 여기서는 사용하지 않고,
-                       각각의 span에 margin을 주는 것이 더 정확합니다. */
+      justify-content: space-between; 
   }
 
   .reservation-date + .reservation-time {
-      margin-left: auto; /* 시간 텍스트를 오른쪽으로 밀어냅니다. */
+      margin-left: auto; 
   }
-
-  /* 또는, reservation-header 자체의 텍스트가 하나라면 (2025.05.20LUNCH 처럼) */
-  /* .reservation-header {
-      text-align: left;
-  } */
 
   /* cancellation-info의 정렬 */
   .cancellation-info {
