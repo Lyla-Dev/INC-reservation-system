@@ -42,7 +42,7 @@ const MainPage = () => {
   return (
     <>
       <div style = {{
-          backgroundImage: "url('public/background1.jpg')", // ✅ 이미지 경로
+          backgroundImage: "url('src/assets/background1.jpg')",
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
