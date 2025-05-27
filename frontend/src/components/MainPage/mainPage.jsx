@@ -2,14 +2,7 @@ import React from 'react';
 import logo from '../../assets/logoWhite.png';
 
 const MainPage = () => {
-  const logoStyle = {
-    width: '1000px',
-    height: '50px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: '40px'
-  };
+  
 
   const boxStyle = {
     width: '300px',
@@ -47,12 +40,12 @@ const MainPage = () => {
       backgroundRepeat: 'no-repeat',
       height: '100vh',
       display: 'flex',
-      flexDirection: 'column',   // 세로 정렬
+      flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
       gap: '100px'                // 로고와 박스 사이 여백
     }}>
-      {/* ✅ 로고 이미지 */}
+      
       <img
         src={logo}
         alt="Sogo Logo"
