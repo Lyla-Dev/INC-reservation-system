@@ -1,26 +1,26 @@
 import React from 'react';
+import logo from '../../assets/logoWhite.png';
 
 const MainPage = () => {
   const logoStyle = {
-     width: '1000px',
+    width: '1000px',
     height: '50px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    fontSize: '30px',
-    fontWeight: 'bold',
-    color: '#ffffff', // 배경이 어두우면 흰색 글씨
     marginBottom: '40px'
   };
 
   const boxStyle = {
     width: '300px',
     height: '400px',
-    backgroundColor: 'rgba(255, 255, 255, 0.55)',
+    backgroundColor: 'rgba(234, 234, 234, 0.7)',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    fontFamily: 'title',
     fontWeight: 'bold',
+    
     fontSize: '20px',
     borderRadius: '0px',
     boxShadow: '0 0 0 rgba(0,0,0,0)',
@@ -32,31 +32,50 @@ const MainPage = () => {
     ...boxStyle,
     transform: 'scale(1.05)',
     boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.2)',
-    backgroundColor: 'rgba(255, 255, 255, 0.75)'
+    backgroundColor: 'rgba(234, 234, 234, 0.85)'
   };
 
   const [hoveredIndex, setHoveredIndex] = React.useState(null);
 
   const blocks = ['예약하기', '예약 확인하기'];
 
-  return (
-    <>
-      <div style = {{
-          backgroundImage: "url('src/assets/background1.jpg')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundColor: '#F2F3F7',
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '80px',
-          alignItems: 'center',      /*가운데*/
-          height: '100vh'      /*화면 높이 설정*/
-          }}>
+   return (
+    <div style={{
+      backgroundImage: "url('/src/assets/background1.jpg')",
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      height: '100vh',
+      display: 'flex',
+      flexDirection: 'column',   // 세로 정렬
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '100px'                // 로고와 박스 사이 여백
+    }}>
+      {/* ✅ 로고 이미지 */}
+      <img
+        src={logo}
+        alt="Sogo Logo"
+        style={{
+          height: '60px',
+          objectFit: 'contain'
+        }}
+      />
+
+      {/* ✅ 박스들 */}
+      <div style={{
+        display: 'flex',
+        gap: '80px',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
         {blocks.map((label, index) => (
           <div
             key={index}
-            style={hoveredIndex === index ? hoverStyle : boxStyle}
+            style={{
+              ...(hoveredIndex === index ? hoverStyle : boxStyle),
+              color: 'rgb(0, 0, 0)'
+            }}
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
           >
@@ -64,11 +83,7 @@ const MainPage = () => {
           </div>
         ))}
       </div>
-
-      <div style={logoStyle}> =
-        <span>Sogo</span>
-      </div>
-    </>
+    </div>
   );
 };
 
