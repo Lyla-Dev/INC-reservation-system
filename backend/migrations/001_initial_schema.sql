@@ -1,11 +1,7 @@
--- migrations/001_initial_schema.sql
-
--- users 테이블: 시스템 사용자 정보 [cite: 4]
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL UNIQUE, -- 로그인 ID
     password_hash TEXT NOT NULL,
-    email TEXT UNIQUE,
     full_name TEXT 
 );
 
@@ -39,3 +35,11 @@ CREATE TABLE IF NOT EXISTS reservations (
     -- 예약 시간 중복 방지를 위한 UNIQUE 제약 조건 (복합 키)
     CONSTRAINT unique_table_time_reservation UNIQUE (table_id, reservation_date, reservation_time)
 );
+
+-- migrations/002_insert_initial_tables.sql (테스트 데이터)
+INSERT INTO dining_tables (table_id, location, capacity) VALUES
+('A1', 'windows', 2),
+('A2', 'windows', 4),
+('B1', 'inside', 4),
+('B2', 'inside', 6),
+('R1', 'room', 8);

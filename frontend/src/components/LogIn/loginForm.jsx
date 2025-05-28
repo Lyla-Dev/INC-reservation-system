@@ -1,7 +1,7 @@
 import RoundedBox from './loginBackground';
 import { Link, useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
-import MainPage from '../MainPage/mainPage';
+
 function SignUpButton() {
   return (
     <div style={{
@@ -26,9 +26,9 @@ function SignUpButton() {
 }
 
 function LoginForm() {
-  const [username, setUsername] = useState(''); // 아이디 상태
-  const [password, setPassword] = useState(''); // 비밀번호 상태
-  const navigate = useNavigate(); // 라우팅을 위한 useNavigate 훅
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate(); 
 
   const topInputStyle = {
     width: '400px',
@@ -77,7 +77,7 @@ function LoginForm() {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://localhost:5000/users/login', { // 백엔드 로그인 API URL
+      const response = await fetch('http://localhost:5000/users/login', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -88,10 +88,8 @@ function LoginForm() {
       const data = await response.json();
 
       if (response.ok) {
-        alert(data.message); // "로그인 성공!"
-        // 로그인 성공 시 메인 페이지나 대시보드로 이동
-        // TODO: 이동할 경로 작성
-        navigate('/MainPage'); // 예시: '/dashboard' 경로로 이동
+        alert(data.message);
+        navigate('/MainPage');
       } else {
         alert(`로그인 실패: ${data.error}`);
       }
@@ -115,7 +113,7 @@ function LoginForm() {
         placeholder="아이디를 입력하세요"
         style={topInputStyle}
         value={username}
-        onChange={(e) => setUsername(e.target.value)} // 입력 값 상태 업데이트
+        onChange={(e) => setUsername(e.target.value)} 
       />
       <input
         type="password"
@@ -123,7 +121,7 @@ function LoginForm() {
         placeholder="비밀번호를 입력하세요"
         style={bottomInputStyle}
         value={password}
-        onChange={(e) => setPassword(e.target.value)} // 입력 값 상태 업데이트
+        onChange={(e) => setPassword(e.target.value)} 
       />
       <button style={buttonStyle} onClick={handleLogin}>로그인</button>
       <SignUpButton />
