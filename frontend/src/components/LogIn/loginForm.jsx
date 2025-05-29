@@ -1,5 +1,6 @@
 import RoundedBox from './loginBackground';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 
 function SignUpButton() {
   return (
@@ -25,6 +26,10 @@ function SignUpButton() {
 }
 
 function LoginForm() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate(); 
+
   const topInputStyle = {
     width: '400px',
     height: '50px',
@@ -70,6 +75,30 @@ function LoginForm() {
     alignSelf: 'center'
   };
 
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/users/login', { 
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.message);
+        navigate('/MainPage');
+      } else {
+        alert(`로그인 실패: ${data.error}`);
+      }
+    } catch (error) {
+      console.error('로그인 요청 중 오류 발생:', error);
+      alert('로그인 처리 중 오류가 발생했습니다.');
+    }
+  };
+
   return (
     <div style={{ 
       display: 'flex', 
@@ -83,14 +112,18 @@ function LoginForm() {
         id="username"
         placeholder="아이디를 입력하세요"
         style={topInputStyle}
+        value={username}
+        onChange={(e) => setUsername(e.target.value)} 
       />
       <input
         type="password"
         id="password"
         placeholder="비밀번호를 입력하세요"
         style={bottomInputStyle}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)} 
       />
-      <button style={buttonStyle}>로그인</button>
+      <button style={buttonStyle} onClick={handleLogin}>로그인</button>
       <SignUpButton />
     </RoundedBox>
     </div>
