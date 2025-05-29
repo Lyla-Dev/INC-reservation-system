@@ -29,7 +29,7 @@ function RoundedBox({ children }) {
   
     const inputStyle = {
       height: '40px',
-      border: '1px solid #000', // 테두리 검정색
+      border: '1px solid #000', 
       padding: '0 10px',
       fontSize: '16px',
       outline: 'none',
