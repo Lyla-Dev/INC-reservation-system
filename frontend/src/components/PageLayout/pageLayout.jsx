@@ -58,7 +58,8 @@ const PageLayout = ({ children }) => {
 
           <div style={{
             fontSize: '14px',
-            color: '#333'
+            color: '#333',
+            fontFamily: 'title'
           }}>
             | {pageName()}
           </div>
@@ -70,7 +71,8 @@ const PageLayout = ({ children }) => {
           textDecoration: 'underline',
           padding: '0',
           borderRadius: '4px',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          fontFamily: 'title'
         }}>
           로그아웃
         </button>
