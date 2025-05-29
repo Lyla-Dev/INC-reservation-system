@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import logo from '../../assets/logoBlack.png';
+import logo from '../../assets/logoWhite.png';
 
 const PageLayout = ({ children }) => {
     const navigate = useNavigate();
