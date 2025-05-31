@@ -34,6 +34,7 @@ const PageLayout = ({ children }) => {
       
       {/*상단바*/}
       <div style={{
+        backgroundColor: '#F9F7F8',
         padding: '16px 24px', /*상단바 넓이*/
         display: 'flex',
         justifyContent: 'space-between',  /*양 끝에 붙이고 가운데 띄움*/

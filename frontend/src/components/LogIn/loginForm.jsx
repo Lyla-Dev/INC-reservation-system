@@ -54,7 +54,8 @@ function LoginForm() {
     borderBottom: '1px solid gray',
     padding: '0 12px',
     fontSize: '16px',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    outline: 'none',
   };
 
   const bottomInputStyle = {
@@ -67,7 +68,8 @@ function LoginForm() {
     borderBottom: '1px solid gray',
     padding: '0 12px',
     fontSize: '16px',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    outline: 'none',
   };
 
   const buttonStyle = {
@@ -132,6 +134,8 @@ function LoginForm() {
         style={topInputStyle}
         value={username}
         onChange={(e) => setUsername(e.target.value)} 
+        onFocus={(e) => (e.target.style.background = '#DAE1EE')}
+        onBlur={(e) => (e.target.style.background = '')}
       />
       <input
         type={pwType.type}
@@ -140,6 +144,8 @@ function LoginForm() {
         style={bottomInputStyle}
         value={password}
         onChange={(e) => setPassword(e.target.value)} 
+        onFocus={(e) => (e.target.style.background = '#DAE1EE')}
+        onBlur={(e) => (e.target.style.background = '')}
       />
       <div style={{
           paddingLeft: '38px',
@@ -151,7 +157,7 @@ function LoginForm() {
               checked={pwType.visible}
               onChange={handlePasswordType}
               id="showPassword"
-              style={{ marginRight: '8px' }} // 체크박스와 라벨 사이 간격
+              style={{ marginRight: '8px' }}
           />
           <label htmlFor="showPassword" style={{ fontFamily: 'content', fontSize: '14px', color: 'gray' }}>
               {"비밀번호 보기"}
