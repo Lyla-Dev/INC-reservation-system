@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, g, session 
 from config import Config
 from routes.user_routes import user_bp
+from routes.reservation_routes import reservation_bp
 from database.connection import get_db_connection, close_db_connection
 
 app = Flask(__name__)
@@ -20,6 +21,29 @@ def teardown_request(exception):
         close_db_connection(db)
 
 app.register_blueprint(user_bp, url_prefix='/users')
+app.register_blueprint(reservation_bp, url_prefix='/reservations')
+
+# tables API
+@app.route('/tables', methods=['GET'])
+def get_tables():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    query = "SELECT table_id, location, capacity FROM dining_tables ORDER BY table_id"
+    cursor.execute(query)
+    rows = cursor.fetchall()
+
+    tables = [
+        {
+            'table_id': row['table_id'],
+            'location': row['location'],
+            'capacity': row['capacity']
+        }
+        for row in rows
+    ]
+
+    conn.close()
+    return jsonify(tables)
 
 @app.route('/')
 def home():

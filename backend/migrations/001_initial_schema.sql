@@ -36,10 +36,3 @@ CREATE TABLE IF NOT EXISTS reservations (
     CONSTRAINT unique_table_time_reservation UNIQUE (table_id, reservation_date, reservation_time)
 );
 
--- migrations/002_insert_initial_tables.sql (테스트 데이터)
-INSERT INTO dining_tables (table_id, location, capacity) VALUES
-('A1', 'windows', 2),
-('A2', 'windows', 4),
-('B1', 'inside', 4),
-('B2', 'inside', 6),
-('R1', 'room', 8);
