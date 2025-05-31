@@ -3,6 +3,8 @@ import os
 from config import Config
 
 def get_db_connection():
+    os.makedirs(os.path.dirname(Config.DATABASE_PATH), exist_ok=True)
+    
     """SQLite 데이터베이스 연결을 반환합니다."""
     try:
         conn = sqlite3.connect(Config.DATABASE_PATH)

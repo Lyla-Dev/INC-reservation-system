@@ -11,6 +11,7 @@ const PageLayout = ({ children }) => {
     };
 
 
+
     const pageName = () => {
     switch (location.pathname) {
       case '/signup':
