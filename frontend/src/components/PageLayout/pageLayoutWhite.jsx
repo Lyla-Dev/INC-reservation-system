@@ -10,7 +10,7 @@ const PageLayout = ({ children }) => {
         navigate('/mainpage');
     };
 
-    
+
 
     const pageName = () => {
     switch (location.pathname) {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Outlet } from 'react-router-dom';
+import logo from '../../assets/logoBlack.png';
 
-const PageLayout = () => {
+const PageLayout = ({ children }) => {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -13,12 +13,12 @@ const PageLayout = () => {
 
     const pageName = () => {
     switch (location.pathname) {
-      case '/signUp':
+      case '/signup':
         return '회원가입';
       case '/reservation':
-      case '/reservationInfo':
+      case '/reservationinfo':
         return '예약하기';
-      case '/reservationStatus':
+      case '/reservationstatus':
         return '예약확인 및 취소';
       default:
         return '';
@@ -34,7 +34,6 @@ const PageLayout = () => {
       
       {/*상단바*/}
       <div style={{
-        backgroundColor: '#DFF0FA',
         padding: '16px 24px', /*상단바 넓이*/
         display: 'flex',
         justifyContent: 'space-between',  /*양 끝에 붙이고 가운데 띄움*/
@@ -49,23 +48,31 @@ const PageLayout = () => {
           <div style={{
             cursor: 'pointer',
           }} onClick={goMain}>
-            로고
+            <img
+              src={logo}
+              alt="로고"
+              style={{ height: '40px', objectFit: 'contain' }}
+            />
           </div>
+        
 
           <div style={{
             fontSize: '14px',
-            color: '#333'
+            color: '#333',
+            fontFamily: 'title'
           }}>
             | {pageName()}
           </div>
         </div>
 
         <button style={{
-          border: '1px solid #aaa',
-          backgroundColor: 'white',
-          padding: '6px 12px',
+          border: 'none',
+          backgroundColor: 'transparent',
+          textDecoration: 'underline',
+          padding: '0',
           borderRadius: '4px',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          fontFamily: 'title'
         }}>
           로그아웃
         </button>
@@ -75,7 +82,7 @@ const PageLayout = () => {
       <div style = {{
         flex: 1,
         backgroundColor: '#fff' }}>
-          <Outlet />
+          {children}
       </div>
 
       {/*하단바*/}
