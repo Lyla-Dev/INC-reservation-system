@@ -9,6 +9,7 @@ import SignUp from './components/SignUp/signUp';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LogIn from './components/LogIn/logIn'
 import ReservationInfo from './components/ReservationInfo/reservationInfo';
+import PageLayout from './components/PageLayout/pageLayout'
 import './App.css';
 
 function App() {

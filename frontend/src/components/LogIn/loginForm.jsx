@@ -1,6 +1,7 @@
 import RoundedBox from './loginBackground';
 import { Link, useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
+import logo from '../../assets/logoBlack.png';
 
 function SignUpButton() {
   return (
@@ -14,11 +15,12 @@ function SignUpButton() {
       marginTop: '12px',
     }}>
     <span style={{ 
+      fontFamily: 'content',
       fontSize: '12px', 
       fontWeight: 'bold',
       color: 'gray'
       }}>처음이신가요?</span>
-    <Link to="/signup" style={{ fontWeight: 'bold', color: 'gray', textDecoration: 'underline', fontSize: '12px'}}>
+    <Link to="/signup" style={{ fontFamily: 'content', fontWeight: 'bold', color: 'gray', textDecoration: 'underline', fontSize: '12px'}}>
         회원가입하기
       </Link>
   </div>
@@ -33,41 +35,38 @@ function LoginForm() {
   const topInputStyle = {
     width: '400px',
     height: '50px',
-    backgroundColor: 'lightgray',
     color: 'black',
-    borderTop: '2px solid black',
-    borderLeft: '2px solid black',
-    borderRight: '2px solid black',
-    borderBottom: 'none',
+    borderTop: 'none',
+    borderLeft: 'none',
+    borderRight: 'none',
+    borderBottom: '1px solid gray',
     padding: '0 12px',
     fontSize: '16px',
-    outline: 'none',
-    borderTopLeftRadius: '0px',
-    borderTopRightRadius: '0px',
     alignSelf: 'center'
   };
 
   const bottomInputStyle = {
     width: '400px',
     height: '50px',
-    backgroundColor: 'lightgray',
+    // backgroundColor: 'lightgray',
     color: 'black',
-    border: '2px solid black',
+    borderTop: 'none',
+    borderLeft: 'none',
+    borderRight: 'none',
+    borderBottom: '1px solid gray',
     padding: '0 12px',
     fontSize: '16px',
-    outline: 'none',
-    borderBottomLeftRadius: '0px',
-    borderBottomRightRadius: '0px',
     alignSelf: 'center'
   };
 
   const buttonStyle = {
     width: '120px',
     height: '40px',
-    backgroundColor: 'lightgray', 
+    backgroundColor: 'white', 
     color: 'black',
-    border: '2px solid black',
+    border: '1px solid gray',
     borderRadius: '0px',
+    fontFamily: 'content',
     fontSize: '16px',
     fontWeight: 'bold',
     cursor: 'pointer',
@@ -101,12 +100,21 @@ function LoginForm() {
 
   return (
     <div style={{ 
+      backgroundColor: '#F9F7F8', 
+      minHeight: '100vh',
+      width: '100vw',
       display: 'flex', 
       flexDirection: 'column', 
       justifyContent: 'center',
       alignItems: 'center'
       }}>
+        <img 
+        src={logo} 
+        alt="로고" 
+        style={{ height: '60px', objectFit: 'contain', paddingBottom: '30px' }}
+        />
     <RoundedBox>
+    <h2 style={{display: 'flex', justifyContent: 'center', fontFamily: 'title'}}>로그인</h2>
       <input
         type="text"
         id="username"
