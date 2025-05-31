@@ -36,7 +36,10 @@ function SignUp() {
         width: '100%', 
         height: '32px',
         padding: '4px 8px',
-        border: '1px solid #aaa',
+        borderTop: 'none',
+        borderLeft: 'none',
+        borderRight: 'none',
+        borderBottom: '1px solid gray',
         fontSize: '14px',
         outline: 'none',
         boxSizing: 'border-box', 
@@ -44,6 +47,7 @@ function SignUp() {
 
     const labelStyle = {
         marginBottom: '4px',
+        fontFamily: 'content',
         fontWeight: 'bold',
         textAlign: 'left',
         width: '100%',
@@ -52,13 +56,11 @@ function SignUp() {
     const containerStyle = {
         width: '400px',
         margin: '0 auto',
-        padding: '24px',
-        border: '1px solid #aaa',
-        borderRadius: '6px',
+        padding: '60px',
+        backgroundColor: 'white',
         display: 'flex',
         flexDirection: 'column',
         gap: '16px',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         alignItems: 'flex-start'
     };
 
@@ -95,10 +97,16 @@ function SignUp() {
     };
 
     return (
-        <div style={{ padding: '40px', textAlign: 'center' }}>
-            <h2 style={{ marginBottom: '24px' }}>회원가입</h2>
+        <div style={{ 
+            padding: '40px', 
+            textAlign: 'center',
+            backgroundColor: '#F9F7F8',
+            minHeight: '100vh',
+            width: '100vw',    
+            }}>
+            <h2 style={{ marginBottom: '24px' , fontFamily: 'title'}}>회원가입</h2>
             <div style={containerStyle}>
-                <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', width: '100%', paddingBottom: '30px' }}>
                     <label htmlFor="id" style={labelStyle}>아이디</label>
                     <input
                         type="text"
@@ -106,7 +114,7 @@ function SignUp() {
                         value={form.username}
                         onChange={handleInputChange}
                         style={inputBaseStyle}
-                        onFocus={(e) => (e.target.style.background = '#DFF0FA')}
+                        onFocus={(e) => (e.target.style.background = '#DAE1EE')}
                         onBlur={(e) => (e.target.style.background = '')}
                     />
                 </div>
@@ -119,7 +127,7 @@ function SignUp() {
                         value={form.password}
                         onChange={handleInputChange}
                         style={inputBaseStyle}
-                        onFocus={(e) => (e.target.style.background = '#DFF0FA')}
+                        onFocus={(e) => (e.target.style.background = '#DAE1EE')}
                         onBlur={(e) => (e.target.style.background = '')}
                     />
                     <div style={{
@@ -131,7 +139,7 @@ function SignUp() {
                             onChange={handlePasswordType}
                             id="showPassword" 
                         />
-                        <label htmlFor="showPassword" style={{ marginLeft: '8px', marginBottom: '0px' }}>
+                        <label htmlFor="showPassword" style={{ marginLeft: '8px', marginBottom: '0px', fontFamily: 'content'}}>
                             {"비밀번호 보기"}
                         </label>
                     </div>
@@ -145,7 +153,7 @@ function SignUp() {
                     marginTop: '24px',
                     padding: '8px 16px',
                     border: '0px solid #aaa',
-                    backgroundColor: isFormComplete ? '#DFF0FA' : '#e0e0e0',
+                    backgroundColor: isFormComplete ? '#DAE1EE' : '#e0e0e0',
                     color: isFormComplete ? '#000' : '#777',
                     cursor: isFormComplete ? 'pointer' : 'not-allowed',
                     fontSize: '14px'
