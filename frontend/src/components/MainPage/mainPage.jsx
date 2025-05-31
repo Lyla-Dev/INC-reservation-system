@@ -1,8 +1,18 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/logoWhite.png';
 
 const MainPage = () => {
-  
+
+  const navigate = useNavigate();
+
+  const handleNext_Reservation = () => {
+    navigate('/reservation');
+  };
+
+  const handelNext_Status = () => {
+    navigate('/reservationInfo');
+  }
 
   const boxStyle = {
     width: '300px',
@@ -55,7 +65,7 @@ const MainPage = () => {
         }}
       />
 
-      {/* ✅ 박스들 */}
+      {/* 박스들 */}
       <div style={{
         display: 'flex',
         gap: '80px',
@@ -71,6 +81,12 @@ const MainPage = () => {
             }}
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
+            onClick={() => {
+              if (label === '예약하기') {
+                handleNext_Reservation();
+              }
+              else handelNext_Status();
+            }}
           >
             {label}
           </div>
