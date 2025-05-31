@@ -8,16 +8,18 @@ import MainPage from './components/MainPage/mainPage';
 import SignUp from './components/SignUp/signUp';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LogIn from './components/LogIn/logIn'
+import ReservationInfo from './components/ReservationInfo/reservationInfo';
 import './App.css';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LogIn />} />
-        <Route path="/login" element={<LogIn />} /> 
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/MainPage" element={<MainPage />} />
+          <Route path="/signup" element={<PageLayout><SignUp /></PageLayout>} />
+          <Route path="/reservationinfo" element={<PageLayout><ReservationInfo /></PageLayout>} />
+          <Route path="/" element={<LogIn />} />
+          <Route path="/login" element={<LogIn />} /> 
+          <Route path="/MainPage" element={<MainPage />} />
       </Routes>
     </Router>
   );
