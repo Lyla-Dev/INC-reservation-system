@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import logo from '../../assets/logoBlack.png';
+import logo from '../../assets/logoWhite.png';
 
 const PageLayout = ({ children }) => {
     const navigate = useNavigate();
@@ -58,8 +58,7 @@ const PageLayout = ({ children }) => {
 
           <div style={{
             fontSize: '14px',
-            color: '#333',
-            fontFamily: 'title'
+            color: '#333'
           }}>
             | {pageName()}
           </div>
@@ -71,8 +70,7 @@ const PageLayout = ({ children }) => {
           textDecoration: 'underline',
           padding: '0',
           borderRadius: '4px',
-          cursor: 'pointer',
-          fontFamily: 'title'
+          cursor: 'pointer'
         }}>
           로그아웃
         </button>
