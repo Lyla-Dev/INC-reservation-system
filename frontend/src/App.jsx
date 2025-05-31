@@ -4,8 +4,10 @@
 // 여기에 앞으로 추가될 내용은 경로 설정만 있습니다!
 // 🚨🚨 
 
+import PageLayout from './components/PageLayout/pageLayout';
 import MainPage from './components/MainPage/mainPage';
 import SignUp from './components/SignUp/signUp';
+import Reservation from './components/Reservation/reservation';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LogIn from './components/LogIn/loginForm'
 import ReservationInfo from './components/ReservationInfo/reservationInfo';
@@ -16,10 +18,11 @@ function App() {
   return (
     <Router>
       <Routes>
-          <Route path="/signup" element={<PageLayout><SignUp /></PageLayout>} />
+          <Route path="/reservation" element={<PageLayout><Reservation /></PageLayout>} />
           <Route path="/reservationinfo" element={<PageLayout><ReservationInfo /></PageLayout>} />
           <Route path="/" element={<LogIn />} />
-          <Route path="/login" element={<LogIn />} /> 
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/signup" element={<PageLayout><SignUp /></PageLayout>} />
           <Route path="/MainPage" element={<MainPage />} />
       </Routes>
     </Router>
