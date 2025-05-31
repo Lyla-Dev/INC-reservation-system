@@ -104,14 +104,13 @@ function LoginForm() {
       minHeight: '100vh',
       width: '100vw',
       display: 'flex', 
-      flexDirection: 'column', 
-      justifyContent: 'center',
+      flexDirection: 'column',
       alignItems: 'center'
       }}>
         <img 
         src={logo} 
         alt="로고" 
-        style={{ height: '60px', objectFit: 'contain', paddingBottom: '30px' }}
+        style={{ height: '60px', objectFit: 'contain', paddingBottom: '30px', paddingTop: '90px' }}
         />
     <RoundedBox>
     <h2 style={{display: 'flex', justifyContent: 'center', fontFamily: 'title'}}>로그인</h2>

@@ -7,7 +7,7 @@
 import MainPage from './components/MainPage/mainPage';
 import SignUp from './components/SignUp/signUp';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LogIn from './components/LogIn/logIn'
+import LogIn from './components/LogIn/loginForm'
 import ReservationInfo from './components/ReservationInfo/reservationInfo';
 import PageLayout from './components/PageLayout/pageLayout'
 import './App.css';
