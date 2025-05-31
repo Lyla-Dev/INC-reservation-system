@@ -32,6 +32,18 @@ function LoginForm() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate(); 
 
+  const [pwType, setpwType] = useState({
+    type: "password",
+    visible: false,
+  });
+
+  const handlePasswordType = () => {
+    setpwType(prev => ({
+        type: prev.visible ? "password" : "text",
+        visible: !prev.visible,
+    }));
+  };
+
   const topInputStyle = {
     width: '400px',
     height: '50px',
@@ -48,7 +60,6 @@ function LoginForm() {
   const bottomInputStyle = {
     width: '400px',
     height: '50px',
-    // backgroundColor: 'lightgray',
     color: 'black',
     borderTop: 'none',
     borderLeft: 'none',
@@ -123,13 +134,29 @@ function LoginForm() {
         onChange={(e) => setUsername(e.target.value)} 
       />
       <input
-        type="password"
+        type={pwType.type}
         id="password"
         placeholder="비밀번호를 입력하세요"
         style={bottomInputStyle}
         value={password}
         onChange={(e) => setPassword(e.target.value)} 
       />
+      <div style={{
+          paddingLeft: '38px',
+          marginTop: '10px',
+          width: '400px'
+      }}>
+          <input
+              type="checkbox"
+              checked={pwType.visible}
+              onChange={handlePasswordType}
+              id="showPassword"
+              style={{ marginRight: '8px' }} // 체크박스와 라벨 사이 간격
+          />
+          <label htmlFor="showPassword" style={{ fontFamily: 'content', fontSize: '14px', color: 'gray' }}>
+              {"비밀번호 보기"}
+          </label>
+      </div>
       <button style={buttonStyle} onClick={handleLogin}>로그인</button>
       <SignUpButton />
     </RoundedBox>

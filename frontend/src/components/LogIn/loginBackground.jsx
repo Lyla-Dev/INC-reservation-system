@@ -3,8 +3,6 @@ function RoundedBox({ children }) {
       width: '500px',
       height: '300px',
       backgroundColor: 'white',
-      // border: '2px solid black',
-      // borderRadius: '16px',
       padding: '20px',
       display: 'flex',
       flexDirection: 'column',
