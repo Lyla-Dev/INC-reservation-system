@@ -11,7 +11,7 @@ const MainPage = () => {
   };
 
   const handelNext_Status = () => {
-    navigate('/reservationInfo');
+    navigate('/reservationStatus');
   }
 
   const boxStyle = {
