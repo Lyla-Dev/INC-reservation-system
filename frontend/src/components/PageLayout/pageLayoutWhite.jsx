@@ -15,7 +15,8 @@ const PageLayout = ({ children }) => {
       case "/signup":
         return "회원가입";
       case "/reservation":
-      case "/reservationinfo":
+        return "예약하기";
+      case "/reservationInfo":
         return "예약하기";
       case "/reservationstatus":
         return "예약확인 및 취소";
