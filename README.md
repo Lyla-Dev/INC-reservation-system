@@ -24,20 +24,29 @@ React와 Flask를 활용한 **웹 기반 식당 예약 서비스**입니다.
 ```
 INC-reservation-system/
 ├── backend/
-│   └── app.py
+│   ├── migrations/
+│   ├── src/
+│   │   ├── database/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── app.py
+│   └── data/
 ├── frontend/
-│   ├── public/
-│   └── src/
-│       ├── components/
-│       │   ├── LogIn/
-│       │   └── MainPage/
-│       │   └── PageLayout/
-│       │   └── Popup/
-│       │   └── Reservation/
-│       │   └── ReservationInfo/
-│       │   └── ReservationStatus/
-│       │   └── SignUp/
-│       ├── App.jsx
-│       └── main.jsx
-├── README.md
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   │   ├── LogIn/
+│   │   │   ├── MainPage/
+│   │   │   ├── PageLayout/
+│   │   │   ├── Popup/
+│   │   │   ├── Reservation/
+│   │   │   ├── ReservationInfo/
+│   │   │   ├── ReservationStatus/
+│   │   │   └── SignUp/
+│   │   ├── fonts/
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   ├── README.md
+│   └── .gitignore
+└── README.md 
 ```
