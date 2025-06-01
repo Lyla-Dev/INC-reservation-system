@@ -1,13 +1,13 @@
-from flask import Flask, jsonify, request, g, session 
+from flask import Flask, jsonify, g
 from config import Config
 from routes.user_routes import user_bp
 from routes.reservation_routes import reservation_bp
 from database.connection import get_db_connection, close_db_connection
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
-from flask_cors import CORS
 CORS(app, supports_credentials=True)
 
 @app.before_request
@@ -23,7 +23,6 @@ def teardown_request(exception):
 app.register_blueprint(user_bp, url_prefix='/users')
 app.register_blueprint(reservation_bp, url_prefix='/reservations')
 
-# tables API
 @app.route('/tables', methods=['GET'])
 def get_tables():
     conn = get_db_connection()

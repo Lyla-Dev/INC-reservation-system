@@ -11,7 +11,7 @@ import Reservation from './components/Reservation/reservation';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LogIn from './components/LogIn/loginForm'
 import ReservationInfo from './components/ReservationInfo/reservationInfo';
-import PageLayout from './components/PageLayout/pageLayout'
+import ReservationStatus from './components/ReservationStatus/reservationStatus';
 import './App.css';
 
 function App() {
@@ -24,6 +24,7 @@ function App() {
           <Route path="/login" element={<LogIn />} />
           <Route path="/signup" element={<PageLayout><SignUp /></PageLayout>} />
           <Route path="/MainPage" element={<MainPage />} />
+          <Route path="/reservationStatus" element={<PageLayout><ReservationStatus /></PageLayout>} />
       </Routes>
     </Router>
   );
