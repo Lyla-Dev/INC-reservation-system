@@ -18,7 +18,7 @@ const PageLayout = ({ children }) => {
       case '/reservation':
       case '/reservationinfo':
         return '예약하기';
-      case '/reservationstatus':
+      case '/reservationStatus':
         return '예약확인 및 취소';
       default:
         return '';
@@ -32,15 +32,13 @@ const PageLayout = ({ children }) => {
       minHeight: '100vh'
       }}>
       
-      {/*상단바*/}
       <div style={{
         backgroundColor: '#F9F7F8',
-        padding: '16px 24px', /*상단바 넓이*/
+        padding: '16px 24px',
         display: 'flex',
-        justifyContent: 'space-between',  /*양 끝에 붙이고 가운데 띄움*/
-        alignItems: 'center', /*세로방향 중앙 정렬*/
+        justifyContent: 'space-between',
+        alignItems: 'center',
       }}>
-        {/* 로고 + 현재 페이지 */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -56,7 +54,6 @@ const PageLayout = ({ children }) => {
             />
           </div>
         
-
           <div style={{
             fontSize: '14px',
             color: '#333',
@@ -79,14 +76,12 @@ const PageLayout = ({ children }) => {
         </button>
       </div>
 
-      {/*본문*/}
       <div style = {{
         flex: 1,
         backgroundColor: '#fff' }}>
           {children}
       </div>
 
-      {/*하단바*/}
       <div style = {{
         backgroundColor: '#DBDBDB',
         padding: '12px 24px',

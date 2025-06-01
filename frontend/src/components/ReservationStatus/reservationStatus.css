@@ -7,7 +7,7 @@
   
   .reservation-card-container {
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     width: 100%;
   }
   
@@ -15,7 +15,7 @@
     width: 100%;
     max-width: 500px;
     box-sizing: border-box; 
-    background-color: #fff; 
+    background-color: '#F9F7F8';
     padding: 0 20px; 
     margin-bottom: 80px;
   }
@@ -74,7 +74,7 @@
       width: 100%;
       max-width: 400px;
       box-sizing: border-box; 
-      background-color: #fff; 
+      background-color: '#F9F7F8';
   }
 
   .reservation-header,
