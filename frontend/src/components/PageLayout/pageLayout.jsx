@@ -17,7 +17,6 @@ const PageLayout = ({ children }) => {
 
     try {
       const response = await fetch("http://localhost:5000/users/logout", {
-        // ✨ /users/logout 엔드포인트로 요청
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,7 +43,7 @@ const PageLayout = ({ children }) => {
       case "/signup":
         return "회원가입";
       case "/reservation":
-      case "/reservationinfo":
+      case "/reservationInfo":
         return "예약하기";
       case "/reservationStatus":
         return "예약확인 및 취소";

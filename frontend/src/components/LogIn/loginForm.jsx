@@ -109,7 +109,6 @@ function LoginForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: 'include',
         body: JSON.stringify({ username, password }),
         credentials: "include",
       });
