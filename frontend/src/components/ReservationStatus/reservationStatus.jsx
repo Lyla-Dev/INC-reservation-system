@@ -11,7 +11,16 @@ const formatDateToDisplay = (dateString) => {
   return dateString.replace(/-/g, ".");
 };
 
-function ReservationStatus() {
+const parseCustomDateTime = (dateTimeString) => {
+  // 예: "2025.06.01 12:00"
+  const [datePart, timePart] = dateTimeString.split(" ");
+  const [year, month, day] = datePart.split(".").map(Number);
+  const [hour, minute] = timePart.split(":").map(Number);
+
+  return new Date(year, month - 1, day, hour, minute, 0);
+};
+
+function ReservationDisplay() {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -62,10 +71,17 @@ function ReservationStatus() {
     fetchReservations();
   }, []);
 
-  const handleRequestCancel = (reservationId) => {
-    setTargetReservationId(reservationId); // 취소할 예약 ID 저장
-    setShowConfirmPopup(true); // 확인 팝업 열기
-  };
+  const handleCancel = async (reservationId, isCancellable) => {
+    if (!isCancellable) {
+      alert("취소 가능 기간이 지났습니다.");
+      return;
+    }
+
+    if (!window.confirm("정말로 이 예약을 취소하시겠습니까?")) {
+      setTargetReservationId(reservationId); // 취소할 예약 ID 저장
+      setShowConfirmPopup(true); // 확인 팝업 열기
+      return;
+    }
 
   const handleCancelConfirm = async () => {
     try {
@@ -162,18 +178,26 @@ function ReservationStatus() {
       ></div>
 
       {reservations.length > 0 ? (
-        reservations.map((reservation, index) => (
-          <ReservationInfoBox
-            key={index}
-            date={formatDateToDisplay(reservation.date)}
-            time={reservation.time}
-            phoneNumber={reservation.phoneNumber}
-            guests={reservation.guests}
-            tableType={reservation.tableType}
-            cancellationDeadline={reservation.cancellationDeadline}
-            onCancel={() => handleRequestCancel(reservation.id)}
-          />
-        ))
+        reservations.map((reservation, index) => {
+          const now = new Date();
+          const deadline = parseCustomDateTime(
+            reservation.cancellationDeadline
+          );
+          const isCancellable = now < deadline;
+
+          return (
+            <ReservationInfoBox
+              key={index}
+              date={formatDateToDisplay(reservation.date)}
+              time={reservation.time}
+              phoneNumber={reservation.phoneNumber}
+              guests={reservation.guests}
+              tableType={reservation.tableType}
+              cancellationDeadline={reservation.cancellationDeadline}
+              onCancel={() => handleCancel(reservation.id, isCancellable)}
+            />
+          );
+        })
       ) : (
         <p style={{ fontFamily: "content", fontSize: "18px", color: "gray" }}>
           현재 예약 내역이 없습니다.

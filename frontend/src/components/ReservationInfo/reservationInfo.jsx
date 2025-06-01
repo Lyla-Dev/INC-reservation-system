@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
 import InfoSuccessPopup from '../Popup/infoSuccessPopup';
 import InfoFailPopup from '../Popup/infoFailPopup';
+import { useLocation, useNavigate } from "react-router-dom";
 
 function ReservationInfo() {
   const [form, setForm] = useState({
@@ -15,11 +15,10 @@ function ReservationInfo() {
     const [showFailPopup, setShowFailPopup] = useState(false);
 
     const location = useLocation();
+    const navigate = useNavigate();
     const { date, meal, table } = location.state || {};
-    console.log("🧾 location.state:", location.state);
 
     const tableInfo = table;
-    console.log("tableInfo:", tableInfo);
 
     const handleSubmit = () => {
       if (!tableInfo) {
@@ -47,7 +46,7 @@ function ReservationInfo() {
         headers: {
           'Content-Type': 'application/json'
         },
-        credentials: 'include',  // 세션 인증 포함
+        credentials: 'include',
         body: JSON.stringify(payload)
       })
         .then((res) => {
@@ -56,9 +55,9 @@ function ReservationInfo() {
         })
         .then(() => {
           setShowSuccessPopup(true);
+          navigate("/reservationStatus");
         })
         .catch((err) => {
-          console.error("예약 중 오류 발생:", err);
           setShowFailPopup(true);
         });
     };
@@ -120,12 +119,16 @@ function ReservationInfo() {
       };
 
   return (
-    <div style={{ 
-      padding: '40px', 
-      textAlign: 'center', 
-      fontFamily: 'content',
-      backgroundColor: '#F9F7F8' }}>
-      <h2 style={{ marginBottom: '24px' }}>예약자 정보 입력</h2>
+    <div
+      style={{
+        padding: "40px",
+        textAlign: "center",
+        fontFamily: "content",
+        minHeight: "100vh",
+        backgroundColor: "#F9F7F8",
+      }}
+    >
+      <h2 style={{ marginBottom: "24px" }}>예약자 정보 입력</h2>
 
       <div style={containerStyle}>
         <div
@@ -146,9 +149,8 @@ function ReservationInfo() {
             style={{
               ...inputBaseStyle,
             }}
-
-            onFocus={(e) => (e.target.style.background = '#DFF0FA')}
-            onBlur={(e) => (e.target.style.background = '')}
+            onFocus={(e) => (e.target.style.background = "#DFF0FA")}
+            onBlur={(e) => (e.target.style.background = "")}
           />
         </div>
 
