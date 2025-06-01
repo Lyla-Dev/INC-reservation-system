@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ReserveFailPopup from "../Popup/reservefailPopup";
 
 const Reservation = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [mealType, setMealType] = useState(null);
   const [availableTables, setAvailableTables] = useState([]);
   const [selectedTable, setSelectedTable] = useState(null);
+  const [showFailPopup, setShowFailPopup] = useState(false);
 
   const navigate = useNavigate();
 
@@ -51,7 +53,7 @@ const Reservation = () => {
         },
       });
     } else {
-      alert("날짜, 시간대, 테이블을 모두 선택해주세요!");
+      setShowFailPopup(true);
     }
   };
 
@@ -187,6 +189,8 @@ const Reservation = () => {
           다음
         </button>
       </div>
+
+      {showFailPopup && <ReserveFailPopup />}
     </div>
   );
 };

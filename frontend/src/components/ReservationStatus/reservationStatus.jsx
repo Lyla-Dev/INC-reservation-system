@@ -2,12 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ReservationInfoBox from "./reservationStatusBox";
 import ReservationStatusImage from "../../assets/reservationStatusImage.jpg";
+import CancelConfirmPopup from "../Popup/cancelConfirmPopup";
+import CancelSuccessPopup from "../Popup/cancelSuccessPopup";
+import CancelFailPopup from "../Popup/cancelFailPopup";
 
 const formatDateToDisplay = (dateString) => {
   if (!dateString) return "";
   return dateString.replace(/-/g, ".");
 };
 
+function ReservationStatus() {
+  
 const parseCustomDateTime = (dateTimeString) => {
   // 예: "2025.06.01 12:00"
   const [datePart, timePart] = dateTimeString.split(" ");
@@ -17,10 +22,14 @@ const parseCustomDateTime = (dateTimeString) => {
   return new Date(year, month - 1, day, hour, minute, 0);
 };
 
-function ReservationDisplay() {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showConfirmPopup, setShowConfirmPopup] = useState(false); // 취소 확인 팝업 표시 여부
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // 취소 성공 팝업 표시 여부
+  const [showFailPopup, setShowFailPopup] = useState(false);
+  const [targetReservationId, setTargetReservationId] = useState(null); // 취소 대상 예약 ID
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -63,19 +72,23 @@ function ReservationDisplay() {
     fetchReservations();
   }, []);
 
-  const handleCancel = async (reservationId, isCancellable) => {
+  const handleRequestCancel = (reservationId, isCancellable) => {
     if (!isCancellable) {
-      alert("취소 가능 기간이 지났습니다.");
+      setShowFailPopup(true);
       return;
     }
 
     if (!window.confirm("정말로 이 예약을 취소하시겠습니까?")) {
+      setTargetReservationId(reservationId); // 취소할 예약 ID 저장
+      setShowConfirmPopup(true); // 확인 팝업 열기
       return;
     }
+  };
 
+  const handleCancelConfirm = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/reservations/reservations/${reservationId}`,
+        `http://localhost:5000/reservations/reservations/${targetReservationId}`,
         {
           method: "DELETE",
           headers: {
@@ -90,15 +103,18 @@ function ReservationDisplay() {
         throw new Error(errorData.error || "예약 취소에 실패했습니다.");
       }
 
-      alert("예약이 성공적으로 취소되었습니다.");
-      setReservations((prevReservations) =>
-        prevReservations.filter(
-          (reservation) => reservation.id !== reservationId
-        )
+      setReservations(
+        (prevReservations) =>
+          prevReservations.filter(
+            (reservation) => reservation.id !== targetReservationId
+          )
       );
+      setShowConfirmPopup(false); // 확인 팝업 닫기
+      setShowSuccessPopup(true); // 성공 팝업 열기
     } catch (err) {
       console.error("예약 취소 중 에러 발생:", err);
       alert(`예약 취소 실패: ${err.message}`);
+      setShowConfirmPopup(false); // 실패 시에도 확인 팝업 닫기
     }
   };
 
@@ -164,7 +180,7 @@ function ReservationDisplay() {
       ></div>
 
       {reservations.length > 0 ? (
-        reservations.map((reservation, index) => {
+         reservations.map((reservation, index) => {
           const now = new Date();
           const deadline = parseCustomDateTime(
             reservation.cancellationDeadline
@@ -180,7 +196,7 @@ function ReservationDisplay() {
               guests={reservation.guests}
               tableType={reservation.tableType}
               cancellationDeadline={reservation.cancellationDeadline}
-              onCancel={() => handleCancel(reservation.id, isCancellable)}
+              onCancel={() => handleRequestCancel(reservation.id, isCancellable)}
             />
           );
         })
@@ -189,8 +205,21 @@ function ReservationDisplay() {
           현재 예약 내역이 없습니다.
         </p>
       )}
+
+      {/* 예약 취소 확인 팝업 */}
+      {showConfirmPopup && (
+        <CancelConfirmPopup
+          onConfirm={handleCancelConfirm}
+          onCancel={() => setShowConfirmPopup(false)}
+        />
+      )}
+
+      {/* 예약 취소 성공 팝업 */}
+      {showSuccessPopup && <CancelSuccessPopup />}
+
+      {showFailPopup && <CancelFailPopup />}
     </div>
   );
 }
 
-export default ReservationDisplay;
+export default ReservationStatus;

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import SignupSuccessPopup from "../Popup/signupSuccessPopup";
+import LoginFailPopup from "../Popup/loginFailPopup";
 
 function SignUp() {
-  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     username: "",
@@ -13,6 +13,9 @@ function SignUp() {
     type: "password",
     visible: false,
   });
+
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // 성공 팝업 상태 추가
+  const [showFailPopup, setShowFailPopup] = useState(false); // 실패 팝업 상태 추가
 
   const handlePasswordType = () => {
     setpwType((prev) => ({
@@ -63,7 +66,7 @@ function SignUp() {
 
   const handleSignUp = async () => {
     if (!isFormComplete) {
-      alert("아이디와 비밀번호는 필수입니다.");
+      setShowFailPopup(true);
       return;
     }
 
@@ -79,13 +82,10 @@ function SignUp() {
         }),
       });
 
-      const data = await response.json();
-
       if (response.ok) {
-        alert(data.message + " 로그인 페이지로 이동합니다.");
-        navigate("/login");
+        setShowSuccessPopup(true);
       } else {
-        alert(`회원가입 실패: ${data.error}`);
+        setShowFailPopup(true);
       }
     } catch (error) {
       console.error("회원가입 요청 중 오류 발생:", error);
@@ -186,6 +186,9 @@ function SignUp() {
       >
         완료
       </button>
+
+      {showSuccessPopup && <SignupSuccessPopup />}
+      {showFailPopup && <LoginFailPopup />}
     </div>
   );
 }
