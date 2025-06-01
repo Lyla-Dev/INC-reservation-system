@@ -4,6 +4,7 @@ import ReservationInfoBox from "./reservationStatusBox";
 import ReservationStatusImage from "../../assets/reservationStatusImage.jpg";
 import CancelConfirmPopup from "../Popup/cancelConfirmPopup";
 import CancelSuccessPopup from "../Popup/cancelSuccessPopup";
+import CancelFailPopup from "../Popup/cancelFailPopup";
 
 const formatDateToDisplay = (dateString) => {
   if (!dateString) return "";
@@ -16,6 +17,7 @@ function ReservationStatus() {
   const [error, setError] = useState(null);
   const [showConfirmPopup, setShowConfirmPopup] = useState(false); // 취소 확인 팝업 표시 여부
   const [showSuccessPopup, setShowSuccessPopup] = useState(false); // 취소 성공 팝업 표시 여부
+  const [showFailPopup, setShowFailPopup] = useState(false);
   const [targetReservationId, setTargetReservationId] = useState(null); // 취소 대상 예약 ID
 
   const navigate = useNavigate();
@@ -188,6 +190,8 @@ function ReservationStatus() {
 
       {/* 예약 취소 성공 팝업 */}
       {showSuccessPopup && <CancelSuccessPopup />}
+
+      {showFailPopup && <CancelFailPopup />}
     </div>
   );
 }
