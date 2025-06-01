@@ -10,6 +10,33 @@ const PageLayout = ({ children }) => {
         navigate('/mainpage');
     };
 
+    const handleLogout = async () => {
+      if (!window.confirm("정말로 로그아웃하시겠습니까?")) {
+          return; 
+      }
+
+      try {
+          const response = await fetch('http://localhost:5000/users/logout', { // ✨ /users/logout 엔드포인트로 요청
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              credentials: 'include',
+          });
+
+          if (response.ok) {
+              const data = await response.json();
+              alert(data.message);
+              navigate('/login');
+          } else {
+              const errorData = await response.json();
+              alert(`로그아웃 실패: ${errorData.error || '알 수 없는 오류 발생'}`);
+          }
+      } catch (error) {
+          console.error('로그아웃 요청 중 오류 발생:', error);
+          alert('로그아웃 처리 중 오류가 발생했습니다.');
+      }
+  };
 
     const pageName = () => {
     switch (location.pathname) {
@@ -71,7 +98,7 @@ const PageLayout = ({ children }) => {
           borderRadius: '4px',
           cursor: 'pointer',
           fontFamily: 'title'
-        }}>
+        }} onClick={handleLogout} >
           로그아웃
         </button>
       </div>
