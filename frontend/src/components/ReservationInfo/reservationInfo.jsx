@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import InfoSuccessPopup from '../Popup/infoSuccessPopup';
 import InfoFailPopup from '../Popup/infoFailPopup';
 
@@ -57,6 +58,7 @@ function ReservationInfo() {
           navigate("/reservationStatus");
         })
         .catch((err) => {
+          console.error("예약 요청 실패:", err);
           setShowFailPopup(true);
         });
     };
