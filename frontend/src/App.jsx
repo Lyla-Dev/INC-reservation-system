@@ -11,7 +11,6 @@ import Reservation from './components/Reservation/reservation';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LogIn from './components/LogIn/loginForm'
 import ReservationInfo from './components/ReservationInfo/reservationInfo';
-import PageLayout from './components/PageLayout/pageLayout'
 import './App.css';
 
 function App() {

@@ -1,6 +1,57 @@
 import React, { useState, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+
 
 function ReservationInfo() {
+
+    const location = useLocation();
+    const { date, meal, table } = location.state || {};
+    console.log("🧾 location.state:", location.state);
+
+    const tableInfo = table;
+    console.log("tableInfo:", tableInfo);
+
+    const handleSubmit = () => {
+      if (!tableInfo) {
+        alert("테이블 정보를 아직 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
+        return;
+      }
+
+      if (parseInt(form.people) > tableInfo.capacity) {
+        alert(`이 테이블은 최대 ${tableInfo.capacity}명까지만 예약할 수 있어요.`);
+        return;
+      }
+
+      const payload = {
+        name: form.name,
+        phone: form.phone,
+        card: form.card.join('-'),
+        guest_count: form.people,
+        table_id: tableInfo.table_id,
+        date,
+        meal
+      };
+
+      fetch('http://localhost:5000/reservations/reservations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',  // 세션 인증 포함
+        body: JSON.stringify(payload)
+      })
+        .then((res) => {
+          if (res.ok) return res.json();
+          else throw new Error('예약 실패');
+        })
+        .then((data) => {
+          alert('예약 성공!');
+          // 팝업 띄우기 또는 페이지 이동
+        })
+        .catch((err) => {
+          alert('예약 중 오류 발생: ' + err.message);
+        });
+    };
 
     const [form, setForm] = useState({
         name: '',
@@ -66,7 +117,11 @@ function ReservationInfo() {
       };
 
   return (
-    <div style={{ padding: '40px', textAlign: 'center' }}>
+    <div style={{ 
+      padding: '40px', 
+      textAlign: 'center', 
+      fontFamily: 'content',
+      backgroundColor: '#F9F7F8' }}>
       <h2 style={{ marginBottom: '24px' }}>예약자 정보 입력</h2>
       <div style={containerStyle}>
         <div style={{ marginBottom: '30px',  display: 'flex', flexDirection: 'column', alignItems: 'start'}}>
@@ -80,6 +135,7 @@ function ReservationInfo() {
             style={{
               ...inputBaseStyle
             }}
+
             onFocus={(e) => (e.target.style.background = '#DFF0FA')}
             onBlur={(e) => (e.target.style.background = '')}
           />
@@ -129,7 +185,7 @@ function ReservationInfo() {
             onBlur={(e) => (e.target.style.background = '')}
           >
             <option value="">선택</option>
-            {[1, 2, 3, 4, 5, 6].map((num) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
               <option key={num} value={num}>
                 {num}명
               </option>
@@ -140,6 +196,7 @@ function ReservationInfo() {
 
       <button
         disabled={!isFormComplete}
+        onClick={handleSubmit}
         style={{
           marginTop: '24px',
           padding: '8px 16px',
