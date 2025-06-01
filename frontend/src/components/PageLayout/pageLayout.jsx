@@ -5,9 +5,14 @@ import logo from "../../assets/logoBlack.png";
 const PageLayout = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
   const goMain = () => {
-    navigate("/mainpage");
+    if (isLoggedIn) {
+      navigate("/mainpage");
+    } else {
+      navigate("/login");
+    }
   };
 
   const handleLogout = async () => {
@@ -27,6 +32,7 @@ const PageLayout = ({ children }) => {
       if (response.ok) {
         const data = await response.json();
         alert(data.message);
+        localStorage.removeItem("isLoggedIn");
         navigate("/login");
       } else {
         const errorData = await response.json();
@@ -100,26 +106,28 @@ const PageLayout = ({ children }) => {
           </div>
         </div>
 
-        <button
-          style={{
-            border: "none",
-            backgroundColor: "transparent",
-            textDecoration: "underline",
-            padding: "0",
-            borderRadius: "4px",
-            cursor: "pointer",
-            fontFamily: "title",
-          }}
-          onClick={handleLogout}
-        >
-          로그아웃
-        </button>
+        {isLoggedIn && (
+          <button
+            style={{
+              border: "none",
+              backgroundColor: "transparent",
+              textDecoration: "underline",
+              padding: "0",
+              borderRadius: "4px",
+              cursor: "pointer",
+              fontFamily: "title",
+            }}
+            onClick={handleLogout}
+          >
+            로그아웃
+          </button>
+        )}
       </div>
 
       <div
         style={{
           flex: 1,
-          backgroundColor: "#fff",
+          backgroundColor: "#F9F7F8",
         }}
       >
         {children}

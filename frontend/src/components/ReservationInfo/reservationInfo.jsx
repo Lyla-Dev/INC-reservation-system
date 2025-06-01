@@ -55,7 +55,6 @@ function ReservationInfo() {
       .then(() => {
         alert("예약 성공!");
         navigate("/reservationStatus");
-        // 팝업 띄우기 또는 페이지 이동
       })
       .catch((err) => {
         alert("예약 중 오류 발생: " + err.message);

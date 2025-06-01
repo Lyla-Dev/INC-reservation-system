@@ -117,6 +117,7 @@ function LoginForm() {
 
       if (response.ok) {
         alert(data.message);
+        localStorage.setItem("isLoggedIn", "true");
         navigate("/MainPage");
       } else {
         alert(`로그인 실패: ${data.error}`);
