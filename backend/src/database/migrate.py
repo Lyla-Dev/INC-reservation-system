@@ -13,11 +13,10 @@ def apply_migrations():
         conn = sqlite3.connect(Config.DATABASE_PATH)
         cursor = conn.cursor()
 
-        # 테이블 생성
         with open(os.path.join(migrations_dir, '001_initial_schema.sql'), 'r', encoding='utf-8') as f:
             sql_script = f.read()
             cursor.executescript(sql_script)
-        #초기 테이블 데이터 삽입
+            
         with open(os.path.join(migrations_dir, '002_insert_initial_tables.sql'), 'r', encoding='utf-8') as f:
             insert_script = f.read()
             cursor.executescript(insert_script)

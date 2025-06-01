@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Reservation = () => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -9,27 +9,25 @@ const Reservation = () => {
 
   const navigate = useNavigate();
 
-  // 오늘 제외하고 +30일까지 날짜 리스트 생성
   const today = new Date();
   const dateList = Array.from({ length: 30 }, (_, i) => {
     const date = new Date(today);
     date.setDate(today.getDate() + i + 1);
-    return date.toISOString().slice(0, 10); // 'YYYY-MM-DD'
+    return date.toISOString().slice(0, 10);
   });
 
-  // 날짜+시간대 선택 시 테이블 목록 불러오기
   useEffect(() => {
     if (selectedDate && mealType) {
-      fetch(`http://localhost:5000/reservations/available_tables?date=${selectedDate}&meal=${mealType}`,
-        {credentials: 'include'}
-    )
+      fetch(
+        `http://localhost:5000/reservations/available_tables?date=${selectedDate}&meal=${mealType}`,
+        { credentials: "include" }
+      )
         .then((res) => res.json())
         .then((data) => setAvailableTables(data))
-        .catch((err) => console.error('테이블 불러오기 실패:', err));
+        .catch((err) => console.error("테이블 불러오기 실패:", err));
     }
   }, [selectedDate, mealType]);
 
-  // 다음 단계로 이동
   const handleNext = () => {
     if (selectedDate && mealType && selectedTable) {
         const table = availableTables.find(t => String(t.table_id) === String(selectedTable));
@@ -51,93 +49,99 @@ const Reservation = () => {
         },
       });
     } else {
-      alert('날짜, 시간대, 테이블을 모두 선택해주세요!');
+      alert("날짜, 시간대, 테이블을 모두 선택해주세요!");
     }
   };
 
   return (
-    <div style={{
-        width: '100%',
-        maxWidth: '900px',      // 화면 폭 제한
-        margin: '0 auto',       // 브라우저 중앙 정렬
-        display: 'flex',
-        gap: '40px',
-        padding: '20px',
-        position: 'relative',
-        fontFamily: 'content'
-        }}>
-      {/* 왼쪽: 날짜 + 시간대 */}
-      <div style={{ width: '250px' }}>
+    <div
+      style={{
+        width: "100%",
+        maxWidth: "900px",
+        margin: "0 auto",
+        display: "flex",
+        gap: "40px",
+        padding: "20px",
+        position: "relative",
+        fontFamily: "content",
+      }}
+    >
+      <div style={{ width: "250px" }}>
         <h3>날짜 선택</h3>
-        <div style={{
-            fontFamily: 'content',
-            maxHeight: '200px',
-            overflowY: 'auto',
-            border: '1px solid #ccc',
-            padding: '8px',
-            borderRadius: '4px',
-            backgroundColor: '#f9f9f9'
-        }}>
-        {dateList.map((date) => (
+        <div
+          style={{
+            fontFamily: "content",
+            maxHeight: "200px",
+            overflowY: "auto",
+            border: "1px solid #ccc",
+            padding: "8px",
+            borderRadius: "4px",
+            backgroundColor: "#f9f9f9",
+          }}
+        >
+          {dateList.map((date) => (
             <button
-            key={date}
-            onClick={() => setSelectedDate(date)}
-            style={{
-                fontFamily: 'content',
-                display: 'block',
-                width: '100%',
-                marginBottom: '6px',
-                padding: '8px',
-                backgroundColor: selectedDate === date ? '#3F72AF' : '#fff',
-                border: '1px solid #ccc',
-                borderRadius: '4px',
-                textAlign: 'left',
-                cursor: 'pointer',
-            }}
+              key={date}
+              onClick={() => setSelectedDate(date)}
+              style={{
+                fontFamily: "content",
+                display: "block",
+                width: "100%",
+                marginBottom: "6px",
+                padding: "8px",
+                backgroundColor: selectedDate === date ? "#3F72AF" : "#fff",
+                border: "1px solid #ccc",
+                borderRadius: "4px",
+                textAlign: "left",
+                cursor: "pointer",
+              }}
             >
-            {date}
+              {date}
             </button>
-        ))}
+          ))}
         </div>
 
-        <h3 style={{ marginTop: '20px' }}>시간대 선택</h3>
-        <div style={{ display: 'flex', gap: '20px' }}>
-            <button
-            onClick={() => setMealType('lunch')}
+        <h3 style={{ marginTop: "20px" }}>시간대 선택</h3>
+        <div style={{ display: "flex", gap: "20px" }}>
+          <button
+            onClick={() => setMealType("lunch")}
             style={{
-                fontFamily: 'content',
-                padding: '8px 16px',
-                backgroundColor: mealType === 'lunch' ? '#3F72AF' : '#DBE2EF',
-                color: mealType === 'lunch' ? '#fff' : '#333',
-                border: '0',
-                borderRadius: '0px',
-                cursor: 'pointer',
-                fontWeight: 'bold',
-                boxShadow: mealType === 'lunch' ? '0 2px 6px rgba(0,0,0,0.2)' : 'none',
-                transition: 'all 0.2s ease-in-out'
-            }}>
+              fontFamily: "content",
+              padding: "8px 16px",
+              backgroundColor: mealType === "lunch" ? "#3F72AF" : "#DBE2EF",
+              color: mealType === "lunch" ? "#fff" : "#333",
+              border: "0",
+              borderRadius: "0px",
+              cursor: "pointer",
+              fontWeight: "bold",
+              boxShadow:
+                mealType === "lunch" ? "0 2px 6px rgba(0,0,0,0.2)" : "none",
+              transition: "all 0.2s ease-in-out",
+            }}
+          >
             Lunch (12시)
-            </button>
-            <button
-            onClick={() => setMealType('dinner')}
+          </button>
+          <button
+            onClick={() => setMealType("dinner")}
             style={{
-                fontFamily: 'content',
-                padding: '8px 16px',
-                backgroundColor: mealType === 'dinner' ? '#3F72AF' : '#DBE2EF',
-                color: mealType === 'dinner' ? '#fff' : '#333',
-                border: '0',
-                borderRadius: '0px',
-                cursor: 'pointer',
-                fontWeight: 'bold',
-                boxShadow: mealType === 'dinner' ? '0 2px 6px rgba(0,0,0,0.2)' : 'none',
-                transition: 'all 0.2s ease-in-out'
-            }}>
+              fontFamily: "content",
+              padding: "8px 16px",
+              backgroundColor: mealType === "dinner" ? "#3F72AF" : "#DBE2EF",
+              color: mealType === "dinner" ? "#fff" : "#333",
+              border: "0",
+              borderRadius: "0px",
+              cursor: "pointer",
+              fontWeight: "bold",
+              boxShadow:
+                mealType === "dinner" ? "0 2px 6px rgba(0,0,0,0.2)" : "none",
+              transition: "all 0.2s ease-in-out",
+            }}
+          >
             Dinner (18시)
-            </button>
+          </button>
         </div>
       </div>
 
-      {/* 오른쪽: 테이블 목록 */}
       <div style={{ flex: 1 }}>
         <h3>테이블 선택</h3>
         {availableTables.length === 0 && selectedDate && mealType && (
@@ -148,12 +152,13 @@ const Reservation = () => {
             key={table.table_id}
             onClick={() => setSelectedTable(table.table_id)}
             style={{
-                fontFamily: 'content',
-                margin: '5px',
-                padding: '10px',
-                backgroundColor: selectedTable === table.table_id ? '#3F72AF' : '#DBE2EF',
-                border: '1px solid #ccc',
-                cursor: 'pointer',
+              fontFamily: "content",
+              margin: "5px",
+              padding: "10px",
+              backgroundColor:
+                selectedTable === table.table_id ? "#3F72AF" : "#DBE2EF",
+              border: "1px solid #ccc",
+              cursor: "pointer",
             }}
           >
             {table.table_id} - {table.location} ({table.capacity}인석)
@@ -161,21 +166,20 @@ const Reservation = () => {
         ))}
       </div>
 
-      {/* 아래: 다음 버튼 */}
-      <div style={{ position: 'absolute', bottom: '20px', right: '20px' }}>
+      <div style={{ position: "absolute", bottom: "20px", right: "20px" }}>
         <button
-                style={{
-                    marginTop: '24px',
-                    padding: '8px 16px',
-                    border: '0',
-                    backgroundColor: 'DBE2EF',
-                    cursor: 'pointer',
-                    fontSize: '14px'
-                }}
-                onClick={handleNext}
-            >
-                다음
-            </button>
+          style={{
+            marginTop: "24px",
+            padding: "8px 16px",
+            border: "0",
+            backgroundColor: "DBE2EF",
+            cursor: "pointer",
+            fontSize: "14px",
+          }}
+          onClick={handleNext}
+        >
+          다음
+        </button>
       </div>
     </div>
   );

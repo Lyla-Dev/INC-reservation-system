@@ -42,11 +42,12 @@ def login_user():
         return jsonify({"error": "아이디 또는 비밀번호가 올바르지 않습니다."}), 401 
 
 @user_bp.route('/logout', methods=['POST'])
-def logout_user():
-    """로그아웃 API 엔드포인트."""
+def logout():
     session.pop('user_id', None)
     session.pop('username', None)
-    return jsonify({"message": "로그아웃 성공!"}), 200
+
+    return jsonify({'message': '로그아웃되었습니다.'}), 200
+
 
 @user_bp.route('/status', methods=['GET'])
 def get_login_status():
