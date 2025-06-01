@@ -23,7 +23,6 @@ def teardown_request(exception):
 app.register_blueprint(user_bp, url_prefix='/users')
 app.register_blueprint(reservation_bp, url_prefix='/reservations')
 
-# tables API
 @app.route('/tables', methods=['GET'])
 def get_tables():
     conn = get_db_connection()

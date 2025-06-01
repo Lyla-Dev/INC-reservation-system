@@ -89,7 +89,6 @@ def cancel_reservation(reservation_id):
         if reservation_owner_id[0] != user_id:
             return jsonify({'error': '이 예약을 취소할 권한이 없습니다.'}), 403
 
-        # 예약 삭제
         cursor.execute("DELETE FROM reservations WHERE id = ?", (reservation_id,))
         conn.commit()
         return jsonify({'message': '예약이 성공적으로 취소되었습니다.'}), 200
@@ -102,8 +101,8 @@ def cancel_reservation(reservation_id):
 
 @reservation_bp.route('/available_tables', methods=['GET'])
 def get_available_tables():
-    date = request.args.get('date')        # 예: 2025-06-01
-    meal_type = request.args.get('meal')   # lunch 또는 dinner
+    date = request.args.get('date') 
+    meal_type = request.args.get('meal') 
 
     if not date or meal_type not in ('lunch', 'dinner'):
         return jsonify({'error': '날짜와 meal 파라미터를 정확히 전달하세요'}), 400
@@ -112,7 +111,6 @@ def get_available_tables():
     cursor = conn.cursor()
 
     try:
-        # 예약된 테이블 ID 조회
         cursor.execute("""
             SELECT dt.table_id
             FROM reservations r
