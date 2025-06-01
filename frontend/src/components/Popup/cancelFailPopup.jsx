@@ -30,7 +30,7 @@ const Popup = () => {
           marginBottom: "16px",
         }}
       >
-        예약이 취소기간이 아닙니다.
+        예약이 취소 가능 기간이 지났습니다.
       </p>
 
       <button

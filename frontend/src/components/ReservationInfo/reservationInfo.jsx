@@ -18,8 +18,8 @@ function ReservationInfo() {
     const { date, meal, table } = location.state || {};
     console.log("🧾 location.state:", location.state);
 
-    const tableInfo = table;
-    console.log("tableInfo:", tableInfo);
+  const tableInfo = table;
+  console.log("tableInfo:", tableInfo);
 
     const handleSubmit = () => {
       if (!tableInfo) {
@@ -65,67 +65,71 @@ function ReservationInfo() {
     
       const cardRefs = [useRef(), useRef(), useRef(), useRef()];
 
-      const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        if (name === 'phone' && !/^\d*$/.test(value)) return;
-        setForm({ ...form, [name]: value });
-      };
-    
-      const handleCardChange = (index, value) => {
-        if (!/^\d*$/.test(value)) return;
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "phone" && !/^\d*$/.test(value)) return;
+    setForm({ ...form, [name]: value });
+  };
 
-        const updatedCard = [...form.card];
-        updatedCard[index] = value;
-        setForm({ ...form, card: updatedCard });
+  const handleCardChange = (index, value) => {
+    if (!/^\d*$/.test(value)) return;
 
-        if (value.length === 4 && index < 3) {
-            cardRefs[index + 1].current.focus();
-          }
-      };
-    
-      const isFormComplete =
-        form.name.trim() &&
-        form.phone.trim() &&
-        form.people &&
-        form.card.every((num) => num.trim().length === 4);
-    
-      const inputBaseStyle = {
-        height: '32px',
-        padding: '4px 8px',
-        border: '1px solid #aaa',
-        borderRadius: '6px',
-        fontSize: '14px',
-        outline: 'none',
-      };
+    const updatedCard = [...form.card];
+    updatedCard[index] = value;
+    setForm({ ...form, card: updatedCard });
 
-      const labelStyle = {
-        marginBottom: '10px',
-        fontWeight: 'bold',
-      };
-    
-      const containerStyle = {
-        width: '400px',
-        margin: '0 auto',
-        padding: '24px',
-        border: '1px solid #aaa',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '12px',
-      };
-    
-      const cardInputStyle = {
-        ...inputBaseStyle,
-        width: '60px',
-        textAlign: 'center',
-      };
+    if (value.length === 4 && index < 3) {
+      cardRefs[index + 1].current.focus();
+    }
+  };
+
+  const isFormComplete =
+    form.name.trim() &&
+    form.phone.trim() &&
+    form.people &&
+    form.card.every((num) => num.trim().length === 4);
+
+  const inputBaseStyle = {
+    height: "32px",
+    padding: "4px 8px",
+    border: "1px solid #aaa",
+    borderRadius: "6px",
+    fontSize: "14px",
+    outline: "none",
+  };
+
+  const labelStyle = {
+    marginBottom: "10px",
+    fontWeight: "bold",
+  };
+
+  const containerStyle = {
+    width: "400px",
+    margin: "0 auto",
+    padding: "24px",
+    border: "1px solid #aaa",
+    display: "flex",
+    flexDirection: "column",
+    gap: "12px",
+  };
+
+  const cardInputStyle = {
+    ...inputBaseStyle,
+    width: "60px",
+    textAlign: "center",
+  };
 
   return (
-    <div style={{ 
-      padding: '40px', 
-      textAlign: 'center', 
-      fontFamily: 'content',
-      backgroundColor: '#F9F7F8' }}>
-      <h2 style={{ marginBottom: '24px' }}>예약자 정보 입력</h2>
+    <div
+      style={{
+        padding: "40px",
+        textAlign: "center",
+        fontFamily: "content",
+        minHeight: "100vh",
+        backgroundColor: "#F9F7F8",
+      }}
+    >
+      <h2 style={{ marginBottom: "24px" }}>예약자 정보 입력</h2>
 
       <div style={containerStyle}>
         <div
@@ -146,9 +150,8 @@ function ReservationInfo() {
             style={{
               ...inputBaseStyle,
             }}
-
-            onFocus={(e) => (e.target.style.background = '#DFF0FA')}
-            onBlur={(e) => (e.target.style.background = '')}
+            onFocus={(e) => (e.target.style.background = "#DFF0FA")}
+            onBlur={(e) => (e.target.style.background = "")}
           />
         </div>
 

@@ -32,18 +32,20 @@ const Reservation = () => {
 
   const handleNext = () => {
     if (selectedDate && mealType && selectedTable) {
-        const table = availableTables.find(t => String(t.table_id) === String(selectedTable));
-        
-        console.log("availableTables:", availableTables);
-        console.log("selectedTable:", selectedTable);
-        console.log("navigate로 넘길 table:", table);
+      const table = availableTables.find(
+        (t) => String(t.table_id) === String(selectedTable)
+      );
 
-        if (!table) {
-            alert("⚠️ 선택한 테이블 정보를 찾을 수 없습니다.");
-            return; // ✅ undefined 상태에서 navigate하지 않도록 반드시 막기
-        }
+      console.log("availableTables:", availableTables);
+      console.log("selectedTable:", selectedTable);
+      console.log("navigate로 넘길 table:", table);
 
-        navigate('/reservationInfo', {
+      if (!table) {
+        alert("⚠️ 선택한 테이블 정보를 찾을 수 없습니다.");
+        return;
+      }
+
+      navigate("/reservationInfo", {
         state: {
           date: selectedDate,
           meal: mealType,
@@ -54,6 +56,8 @@ const Reservation = () => {
       setShowFailPopup(true);
     }
   };
+
+  const isNextButtonEnabled = selectedDate && mealType && selectedTable;
 
   return (
     <div
@@ -66,6 +70,7 @@ const Reservation = () => {
         padding: "20px",
         position: "relative",
         fontFamily: "content",
+        backgroundColor: "#F9F7F8",
       }}
     >
       <div style={{ width: "250px" }}>
@@ -170,15 +175,16 @@ const Reservation = () => {
 
       <div style={{ position: "absolute", bottom: "20px", right: "20px" }}>
         <button
+          disabled={!isNextButtonEnabled}
+          onClick={handleNext}
           style={{
             marginTop: "24px",
             padding: "8px 16px",
             border: "0",
-            backgroundColor: "DBE2EF",
+            backgroundColor: "#DBE2EF",
             cursor: "pointer",
             fontSize: "14px",
           }}
-          onClick={handleNext}
         >
           다음
         </button>
