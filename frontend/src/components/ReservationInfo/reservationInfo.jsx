@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
 import InfoSuccessPopup from '../Popup/infoSuccessPopup';
 import InfoFailPopup from '../Popup/infoFailPopup';
 
@@ -15,11 +14,10 @@ function ReservationInfo() {
     const [showFailPopup, setShowFailPopup] = useState(false);
 
     const location = useLocation();
+    const navigate = useNavigate();
     const { date, meal, table } = location.state || {};
     console.log("🧾 location.state:", location.state);
-
-  const tableInfo = table;
-  console.log("tableInfo:", tableInfo);
+    const tableInfo = table;
 
     const handleSubmit = () => {
       if (!tableInfo) {
@@ -47,7 +45,7 @@ function ReservationInfo() {
         headers: {
           'Content-Type': 'application/json'
         },
-        credentials: 'include',  // 세션 인증 포함
+        credentials: 'include',
         body: JSON.stringify(payload)
       })
         .then((res) => {
@@ -56,68 +54,68 @@ function ReservationInfo() {
         })
         .then(() => {
           setShowSuccessPopup(true);
+          navigate("/reservationStatus");
         })
         .catch((err) => {
-          console.error("예약 중 오류 발생:", err);
           setShowFailPopup(true);
         });
     };
     
       const cardRefs = [useRef(), useRef(), useRef(), useRef()];
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "phone" && !/^\d*$/.test(value)) return;
-    setForm({ ...form, [name]: value });
-  };
+      const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        if (name === 'phone' && !/^\d*$/.test(value)) return;
+        setForm({ ...form, [name]: value });
+      };
+    
+      const handleCardChange = (index, value) => {
+        if (!/^\d*$/.test(value)) return;
 
-  const handleCardChange = (index, value) => {
-    if (!/^\d*$/.test(value)) return;
+        const updatedCard = [...form.card];
+        updatedCard[index] = value;
+        setForm({ ...form, card: updatedCard });
 
-    const updatedCard = [...form.card];
-    updatedCard[index] = value;
-    setForm({ ...form, card: updatedCard });
+        if (value.length === 4 && index < 3) {
+            cardRefs[index + 1].current.focus();
+          }
+      };
+    
+      const isFormComplete =
+        form.name.trim() &&
+        form.phone.trim() &&
+        form.people &&
+        form.card.every((num) => num.trim().length === 4);
+    
+      const inputBaseStyle = {
+        height: '32px',
+        padding: '4px 8px',
+        border: '1px solid #aaa',
+        borderRadius: '6px',
+        fontSize: '14px',
+        outline: 'none',
+      };
 
-    if (value.length === 4 && index < 3) {
-      cardRefs[index + 1].current.focus();
-    }
-  };
-
-  const isFormComplete =
-    form.name.trim() &&
-    form.phone.trim() &&
-    form.people &&
-    form.card.every((num) => num.trim().length === 4);
-
-  const inputBaseStyle = {
-    height: "32px",
-    padding: "4px 8px",
-    border: "1px solid #aaa",
-    borderRadius: "6px",
-    fontSize: "14px",
-    outline: "none",
-  };
-
-  const labelStyle = {
-    marginBottom: "10px",
-    fontWeight: "bold",
-  };
-
-  const containerStyle = {
-    width: "400px",
-    margin: "0 auto",
-    padding: "24px",
-    border: "1px solid #aaa",
-    display: "flex",
-    flexDirection: "column",
-    gap: "12px",
-  };
-
-  const cardInputStyle = {
-    ...inputBaseStyle,
-    width: "60px",
-    textAlign: "center",
-  };
+      const labelStyle = {
+        marginBottom: '10px',
+        fontWeight: 'bold',
+      };
+    
+      const containerStyle = {
+        width: '400px',
+        margin: '0 auto',
+        padding: '24px',
+        border: '1px solid #aaa',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '12px',
+      };
+    
+      const cardInputStyle = {
+        ...inputBaseStyle,
+        width: '60px',
+        textAlign: 'center',
+      };
 
   return (
     <div

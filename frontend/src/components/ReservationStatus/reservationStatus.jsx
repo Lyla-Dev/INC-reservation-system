@@ -12,7 +12,7 @@ const formatDateToDisplay = (dateString) => {
 };
 
 function ReservationStatus() {
-
+  
 const parseCustomDateTime = (dateTimeString) => {
   // 예: "2025.06.01 12:00"
   const [datePart, timePart] = dateTimeString.split(" ");
@@ -78,8 +78,11 @@ const parseCustomDateTime = (dateTimeString) => {
       return;
     }
 
-    setTargetReservationId(reservationId); // 예약 ID 저장
-    setShowConfirmPopup(true);             // 확인 팝업 표시
+    if (!window.confirm("정말로 이 예약을 취소하시겠습니까?")) {
+      setTargetReservationId(reservationId); // 취소할 예약 ID 저장
+      setShowConfirmPopup(true); // 확인 팝업 열기
+      return;
+    }
   };
 
   const handleCancelConfirm = async () => {
