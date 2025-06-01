@@ -1,9 +1,8 @@
 import React from "react";
 
 const Popup = () => {
-
   const handleClose = () => {
-    window.location.reload(); // 현재 페이지 새로고침
+    window.location.reload();
   };
 
   return (
@@ -21,7 +20,7 @@ const Popup = () => {
         zIndex: 1000,
         minWidth: "300px",
         textAlign: "center",
-        fontFamily: 'content'
+        fontFamily: "content",
       }}
     >
       <p

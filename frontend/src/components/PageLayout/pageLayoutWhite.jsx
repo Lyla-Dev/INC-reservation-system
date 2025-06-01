@@ -1,13 +1,13 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import logo from "../../assets/logoWhite.png";
+import logo from "../../assets/logoBlack.png";
 
 const PageLayout = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const goMain = () => {
-    navigate("/mainpage");
+    navigate("/login");
   };
 
   const pageName = () => {
@@ -35,6 +35,7 @@ const PageLayout = ({ children }) => {
     >
       <div
         style={{
+          backgroundColor: "#F9F7F8",
           padding: "16px 24px",
           display: "flex",
           justifyContent: "space-between",
@@ -65,24 +66,12 @@ const PageLayout = ({ children }) => {
             style={{
               fontSize: "14px",
               color: "#333",
+              fontFamily: "title",
             }}
           >
             | {pageName()}
           </div>
         </div>
-
-        <button
-          style={{
-            border: "none",
-            backgroundColor: "transparent",
-            textDecoration: "underline",
-            padding: "0",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-        >
-          로그아웃
-        </button>
       </div>
 
       <div

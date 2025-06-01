@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logoWhite.png";
+import LogoutConfirmPopup from "../Popup/logoutConfirmPopup";
 
 const MainPage = () => {
   const navigate = useNavigate();
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const [showConfirmPopup, setShowConfirmPopup] = useState(false);
 
   const handleNext_Reservation = () => {
     navigate("/reservation");
@@ -41,6 +44,28 @@ const MainPage = () => {
 
   const blocks = ["예약하기", "예약 확인하기"];
 
+  const handleLogout = () => {
+    setShowConfirmPopup(true);
+
+    try {
+      const response = fetch("http://localhost:5000/users/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        localStorage.removeItem("isLoggedIn");
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("로그아웃 요청 중 오류 발생:", error);
+      alert("로그아웃 처리 중 오류가 발생했습니다.");
+    }
+  };
+
   return (
     <div
       style={{
@@ -52,10 +77,37 @@ const MainPage = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
-        gap: "100px",
+        justifyContent: "flex-start",
+        gap: "150px",
       }}
     >
+      <div
+        style={{
+          width: "100vw",
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "flex-end",
+        }}
+      >
+        {isLoggedIn && (
+          <button
+            style={{
+              border: "none",
+              backgroundColor: "transparent",
+              paddingTop: "40px",
+              paddingRight: "40px",
+              color: "#fff",
+              cursor: "pointer",
+              fontSize: "12px",
+              fontFamily: "content",
+            }}
+            onClick={handleLogout}
+          >
+            로그아웃
+          </button>
+        )}
+      </div>
+
       <img
         src={logo}
         alt="Sogo Logo"
@@ -91,6 +143,9 @@ const MainPage = () => {
             {label}
           </div>
         ))}
+        {showConfirmPopup && (
+          <LogoutConfirmPopup onCancel={() => setShowConfirmPopup(false)} />
+        )}
       </div>
     </div>
   );
