@@ -1,0 +1,103 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 20px;
+}
+
+.reservation-card-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.reservation-card {
+  width: 100%;
+  max-width: 500px;
+  box-sizing: border-box;
+  background-color: '#F9F7F8';
+  padding: 0 20px;
+  margin-bottom: 80px;
+}
+
+.reservation-header {
+  display: flex;
+  width: 100%;
+  font-family: 'content';
+  font-size: 2.5em;
+  font-weight: lighter;
+}
+
+.reservation-date {
+  margin-right: 20px;
+}
+
+.reservation-details {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.reservation-details p {
+  margin: 0px 0;
+  font-family: 'content';
+  font-size: 1em;
+  color: #333;
+}
+
+.cancellation-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'content';
+  font-size: 1em;
+}
+
+.cancel-button {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-family: 'content';
+  font-size: 0.9em;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.cancel-button:hover {
+  color: #000;
+}
+
+.reservation-card {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 0 20px;
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+  background-color: '#F9F7F8';
+}
+
+.reservation-header,
+.reservation-details {
+  grid-column: 1 / -1;
+  width: auto;
+}
+
+.reservation-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.reservation-date+.reservation-time {
+  margin-left: auto;
+}
+
+.cancellation-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1em;
+  color: #555;
+  margin-top: 7px;
+}
