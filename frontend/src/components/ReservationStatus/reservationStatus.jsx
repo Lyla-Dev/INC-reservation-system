@@ -2,16 +2,22 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ReservationInfoBox from "./reservationStatusBox";
 import ReservationStatusImage from "../../assets/reservationStatusImage.jpg";
+import CancelConfirmPopup from "../Popup/cancelConfirmPopup";
+import CancelSuccessPopup from "../Popup/cancelSuccessPopup";
 
 const formatDateToDisplay = (dateString) => {
   if (!dateString) return "";
   return dateString.replace(/-/g, ".");
 };
 
-function ReservationDisplay() {
+function ReservationStatus() {
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showConfirmPopup, setShowConfirmPopup] = useState(false); // 취소 확인 팝업 표시 여부
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // 취소 성공 팝업 표시 여부
+  const [targetReservationId, setTargetReservationId] = useState(null); // 취소 대상 예약 ID
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,14 +60,15 @@ function ReservationDisplay() {
     fetchReservations();
   }, []);
 
-  const handleCancel = async (reservationId) => {
-    if (!window.confirm("정말로 이 예약을 취소하시겠습니까?")) {
-      return;
-    }
+  const handleRequestCancel = (reservationId) => {
+    setTargetReservationId(reservationId); // 취소할 예약 ID 저장
+    setShowConfirmPopup(true); // 확인 팝업 열기
+  };
 
+  const handleCancelConfirm = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/reservations/reservations/${reservationId}`,
+        `http://localhost:5000/reservations/reservations/${targetReservationId}`,
         {
           method: "DELETE",
           headers: {
@@ -76,16 +83,18 @@ function ReservationDisplay() {
         throw new Error(errorData.error || "예약 취소에 실패했습니다.");
       }
 
-      alert("예약이 성공적으로 취소되었습니다.");
       setReservations(
         (prevReservations) =>
           prevReservations.filter(
-            (reservation) => reservation.id !== reservationId
-          ) // 실제 예약 객체에 id가 있어야 함
+            (reservation) => reservation.id !== targetReservationId
+          )
       );
+      setShowConfirmPopup(false); // 확인 팝업 닫기
+      setShowSuccessPopup(true); // 성공 팝업 열기
     } catch (err) {
       console.error("예약 취소 중 에러 발생:", err);
       alert(`예약 취소 실패: ${err.message}`);
+      setShowConfirmPopup(false); // 실패 시에도 확인 팝업 닫기
     }
   };
 
@@ -160,7 +169,7 @@ function ReservationDisplay() {
             guests={reservation.guests}
             tableType={reservation.tableType}
             cancellationDeadline={reservation.cancellationDeadline}
-            onCancel={() => handleCancel(reservation.id)}
+            onCancel={() => handleRequestCancel(reservation.id)}
           />
         ))
       ) : (
@@ -168,8 +177,19 @@ function ReservationDisplay() {
           현재 예약 내역이 없습니다.
         </p>
       )}
+
+      {/* 예약 취소 확인 팝업 */}
+      {showConfirmPopup && (
+        <CancelConfirmPopup
+          onConfirm={handleCancelConfirm}
+          onCancel={() => setShowConfirmPopup(false)}
+        />
+      )}
+
+      {/* 예약 취소 성공 팝업 */}
+      {showSuccessPopup && <CancelSuccessPopup />}
     </div>
   );
 }
 
-export default ReservationDisplay;
+export default ReservationStatus;

@@ -1,7 +1,9 @@
 import RoundedBox from "./loginBackground";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React, { useState } from "react";
 import logo from "../../assets/logoBlack.png";
+import LoginSuccessPopup from "../Popup/loginSuccessPopup";
+import LoginFailPopup from "../Popup/loginFailPopup";
 
 function SignUpButton() {
   return (
@@ -45,7 +47,8 @@ function SignUpButton() {
 function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [showFailPopup, setShowFailPopup] = useState(false);
 
   const [pwType, setpwType] = useState({
     type: "password",
@@ -111,20 +114,16 @@ function LoginForm() {
         },
         credentials: 'include',
         body: JSON.stringify({ username, password }),
-        credentials: "include",
       });
 
-      const data = await response.json();
-
       if (response.ok) {
-        alert(data.message);
-        navigate("/MainPage");
+        setShowSuccessPopup(true);
       } else {
-        alert(`로그인 실패: ${data.error}`);
+        setShowFailPopup(true);
       }
     } catch (error) {
       console.error("로그인 요청 중 오류 발생:", error);
-      alert("로그인 처리 중 오류가 발생했습니다.");
+      setShowFailPopup(true);
     }
   };
 
@@ -205,6 +204,9 @@ function LoginForm() {
         </button>
         <SignUpButton />
       </RoundedBox>
+
+      {showSuccessPopup && <LoginSuccessPopup />}
+      {showFailPopup && <LoginFailPopup />}
     </div>
   );
 }

@@ -1,6 +1,11 @@
 import React from "react";
 
 const Popup = () => {
+
+  const handleClose = () => {
+    window.location.reload(); // 현재 페이지 새로고침
+  };
+
   return (
     <div
       style={{
@@ -16,6 +21,7 @@ const Popup = () => {
         zIndex: 1000,
         minWidth: "300px",
         textAlign: "center",
+        fontFamily: 'content'
       }}
     >
       <p
@@ -24,23 +30,8 @@ const Popup = () => {
           marginBottom: "16px",
         }}
       >
-        회원가입이 완료되었습니다.
+        예약이 취소되었습니다.
       </p>
-
-      <div
-        style={{
-          border: "1px solid #ccc",
-          padding: "16px",
-          marginBottom: "20px",
-          textAlign: "left",
-        }}
-      >
-        <p>
-          <strong>[회원정보]</strong>
-        </p>
-        <p>ID : 1234</p>
-        <p>Password : 1234</p>
-      </div>
 
       <button
         style={{
@@ -50,6 +41,7 @@ const Popup = () => {
           borderRadius: "4px",
           cursor: "pointer",
         }}
+        onClick={handleClose}
       >
         닫기
       </button>

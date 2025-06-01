@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
+import InfoSuccessPopup from '../Popup/infoSuccessPopup';
+import InfoFailPopup from '../Popup/infoFailPopup';
 
 function ReservationInfo() {
   const [form, setForm] = useState({
@@ -8,6 +10,9 @@ function ReservationInfo() {
     card: ["", "", "", ""],
     people: "",
   });
+
+    const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+    const [showFailPopup, setShowFailPopup] = useState(false);
 
     const location = useLocation();
     const { date, meal, table } = location.state || {};
@@ -18,12 +23,12 @@ function ReservationInfo() {
 
     const handleSubmit = () => {
       if (!tableInfo) {
-        alert("테이블 정보를 아직 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
+        setShowFailPopup(true);
         return;
       }
 
       if (parseInt(form.people) > tableInfo.capacity) {
-        alert(`이 테이블은 최대 ${tableInfo.capacity}명까지만 예약할 수 있어요.`);
+        setShowFailPopup(true);
         return;
       }
 
@@ -49,21 +54,14 @@ function ReservationInfo() {
           if (res.ok) return res.json();
           else throw new Error('예약 실패');
         })
-        .then((data) => {
-          alert('예약 성공!');
-          // 팝업 띄우기 또는 페이지 이동
+        .then(() => {
+          setShowSuccessPopup(true);
         })
         .catch((err) => {
-          alert('예약 중 오류 발생: ' + err.message);
+          console.error("예약 중 오류 발생:", err);
+          setShowFailPopup(true);
         });
     };
-
-    const [form, setForm] = useState({
-        name: '',
-        phone: '',
-        card: ['', '', '', ''],
-        people: '',
-      });
     
       const cardRefs = [useRef(), useRef(), useRef(), useRef()];
 
@@ -243,6 +241,9 @@ function ReservationInfo() {
       >
         완료
       </button>
+
+      {showSuccessPopup && <InfoSuccessPopup date={date} meal={meal} table={tableInfo} />}
+      {showFailPopup && <InfoFailPopup />}
     </div>
   );
 }
