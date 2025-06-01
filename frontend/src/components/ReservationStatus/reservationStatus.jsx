@@ -12,23 +12,21 @@ const formatDateToDisplay = (dateString) => {
 };
 
 function ReservationStatus() {
-  
-const parseCustomDateTime = (dateTimeString) => {
-  // 예: "2025.06.01 12:00"
-  const [datePart, timePart] = dateTimeString.split(" ");
-  const [year, month, day] = datePart.split(".").map(Number);
-  const [hour, minute] = timePart.split(":").map(Number);
+  const parseCustomDateTime = (dateTimeString) => {
+    const [datePart, timePart] = dateTimeString.split(" ");
+    const [year, month, day] = datePart.split(".").map(Number);
+    const [hour, minute] = timePart.split(":").map(Number);
 
-  return new Date(year, month - 1, day, hour, minute, 0);
-};
+    return new Date(year, month - 1, day, hour, minute, 0);
+  };
 
   const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showConfirmPopup, setShowConfirmPopup] = useState(false); // 취소 확인 팝업 표시 여부
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // 취소 성공 팝업 표시 여부
+  const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [showFailPopup, setShowFailPopup] = useState(false);
-  const [targetReservationId, setTargetReservationId] = useState(null); // 취소 대상 예약 ID
+  const [targetReservationId, setTargetReservationId] = useState(null);
 
   const navigate = useNavigate();
 
@@ -77,12 +75,8 @@ const parseCustomDateTime = (dateTimeString) => {
       setShowFailPopup(true);
       return;
     }
-
-    if (!window.confirm("정말로 이 예약을 취소하시겠습니까?")) {
-      setTargetReservationId(reservationId); // 취소할 예약 ID 저장
-      setShowConfirmPopup(true); // 확인 팝업 열기
-      return;
-    }
+    setTargetReservationId(reservationId);
+    setShowConfirmPopup(true);
   };
 
   const handleCancelConfirm = async () => {
@@ -103,18 +97,17 @@ const parseCustomDateTime = (dateTimeString) => {
         throw new Error(errorData.error || "예약 취소에 실패했습니다.");
       }
 
-      setReservations(
-        (prevReservations) =>
-          prevReservations.filter(
-            (reservation) => reservation.id !== targetReservationId
-          )
+      setReservations((prevReservations) =>
+        prevReservations.filter(
+          (reservation) => reservation.id !== targetReservationId
+        )
       );
-      setShowConfirmPopup(false); // 확인 팝업 닫기
-      setShowSuccessPopup(true); // 성공 팝업 열기
+      setShowConfirmPopup(false);
+      setShowSuccessPopup(true);
     } catch (err) {
       console.error("예약 취소 중 에러 발생:", err);
       alert(`예약 취소 실패: ${err.message}`);
-      setShowConfirmPopup(false); // 실패 시에도 확인 팝업 닫기
+      setShowConfirmPopup(false);
     }
   };
 
@@ -180,7 +173,7 @@ const parseCustomDateTime = (dateTimeString) => {
       ></div>
 
       {reservations.length > 0 ? (
-         reservations.map((reservation, index) => {
+        reservations.map((reservation, index) => {
           const now = new Date();
           const deadline = parseCustomDateTime(
             reservation.cancellationDeadline
@@ -196,7 +189,9 @@ const parseCustomDateTime = (dateTimeString) => {
               guests={reservation.guests}
               tableType={reservation.tableType}
               cancellationDeadline={reservation.cancellationDeadline}
-              onCancel={() => handleRequestCancel(reservation.id, isCancellable)}
+              onCancel={() =>
+                handleRequestCancel(reservation.id, isCancellable)
+              }
             />
           );
         })
@@ -206,7 +201,6 @@ const parseCustomDateTime = (dateTimeString) => {
         </p>
       )}
 
-      {/* 예약 취소 확인 팝업 */}
       {showConfirmPopup && (
         <CancelConfirmPopup
           onConfirm={handleCancelConfirm}
@@ -214,7 +208,6 @@ const parseCustomDateTime = (dateTimeString) => {
         />
       )}
 
-      {/* 예약 취소 성공 팝업 */}
       {showSuccessPopup && <CancelSuccessPopup />}
 
       {showFailPopup && <CancelFailPopup />}

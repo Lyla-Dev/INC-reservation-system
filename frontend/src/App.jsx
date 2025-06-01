@@ -5,6 +5,7 @@
 // 🚨🚨
 
 import PageLayout from "./components/PageLayout/pageLayout";
+import PageLayoutWhite from "./components/PageLayout/pageLayoutWhite";
 import MainPage from "./components/MainPage/mainPage";
 import SignUp from "./components/SignUp/signUp";
 import Reservation from "./components/Reservation/reservation";
@@ -39,9 +40,9 @@ function App() {
         <Route
           path="/signup"
           element={
-            <PageLayout>
+            <PageLayoutWhite>
               <SignUp />
-            </PageLayout>
+            </PageLayoutWhite>
           }
         />
         <Route path="/MainPage" element={<MainPage />} />

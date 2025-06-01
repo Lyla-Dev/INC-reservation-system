@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/logoBlack.png";
+import LogoutConfirmPopup from "../Popup/logoutConfirmPopup";
 
 const PageLayout = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const [showConfirmPopup, setShowConfirmPopup] = useState(false);
 
   const goMain = () => {
     if (isLoggedIn) {
@@ -15,13 +17,11 @@ const PageLayout = ({ children }) => {
     }
   };
 
-  const handleLogout = async () => {
-    if (!window.confirm("정말로 로그아웃하시겠습니까?")) {
-      return;
-    }
+  const handleLogout = () => {
+    setShowConfirmPopup(true);
 
     try {
-      const response = await fetch("http://localhost:5000/users/logout", {
+      const response = fetch("http://localhost:5000/users/logout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,13 +30,8 @@ const PageLayout = ({ children }) => {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        alert(data.message);
         localStorage.removeItem("isLoggedIn");
         navigate("/login");
-      } else {
-        const errorData = await response.json();
-        alert(`로그아웃 실패: ${errorData.error || "알 수 없는 오류 발생"}`);
       }
     } catch (error) {
       console.error("로그아웃 요청 중 오류 발생:", error);
@@ -148,6 +143,9 @@ const PageLayout = ({ children }) => {
           <br />
           Copyright ©SGRestaurant All rights reserved.
         </p>
+        {showConfirmPopup && (
+          <LogoutConfirmPopup onCancel={() => setShowConfirmPopup(false)} />
+        )}
       </div>
     </div>
   );

@@ -3,7 +3,6 @@ import SignupSuccessPopup from "../Popup/signupSuccessPopup";
 import LoginFailPopup from "../Popup/loginFailPopup";
 
 function SignUp() {
-
   const [form, setForm] = useState({
     username: "",
     password: "",
@@ -14,8 +13,8 @@ function SignUp() {
     visible: false,
   });
 
-  const [showSuccessPopup, setShowSuccessPopup] = useState(false); // 성공 팝업 상태 추가
-  const [showFailPopup, setShowFailPopup] = useState(false); // 실패 팝업 상태 추가
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [showFailPopup, setShowFailPopup] = useState(false);
 
   const handlePasswordType = () => {
     setpwType((prev) => ({
