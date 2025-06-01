@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 
 function ReservationInfo() {
   const [form, setForm] = useState({
@@ -8,65 +9,126 @@ function ReservationInfo() {
     people: "",
   });
 
-  const cardRefs = [useRef(), useRef(), useRef(), useRef()];
+    const location = useLocation();
+    const { date, meal, table } = location.state || {};
+    console.log("🧾 location.state:", location.state);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "phone" && !/^\d*$/.test(value)) return;
-    setForm({ ...form, [name]: value });
-  };
+    const tableInfo = table;
+    console.log("tableInfo:", tableInfo);
 
-  const handleCardChange = (index, value) => {
-    if (!/^\d*$/.test(value)) return;
+    const handleSubmit = () => {
+      if (!tableInfo) {
+        alert("테이블 정보를 아직 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
+        return;
+      }
 
-    const updatedCard = [...form.card];
-    updatedCard[index] = value;
-    setForm({ ...form, card: updatedCard });
+      if (parseInt(form.people) > tableInfo.capacity) {
+        alert(`이 테이블은 최대 ${tableInfo.capacity}명까지만 예약할 수 있어요.`);
+        return;
+      }
 
-    if (value.length === 4 && index < 3) {
-      cardRefs[index + 1].current.focus();
-    }
-  };
+      const payload = {
+        name: form.name,
+        phone: form.phone,
+        card: form.card.join('-'),
+        guest_count: form.people,
+        table_id: tableInfo.table_id,
+        date,
+        meal
+      };
 
-  const isFormComplete =
-    form.name.trim() &&
-    form.phone.trim() &&
-    form.people &&
-    form.card.every((num) => num.trim().length === 4);
+      fetch('http://localhost:5000/reservations/reservations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',  // 세션 인증 포함
+        body: JSON.stringify(payload)
+      })
+        .then((res) => {
+          if (res.ok) return res.json();
+          else throw new Error('예약 실패');
+        })
+        .then((data) => {
+          alert('예약 성공!');
+          // 팝업 띄우기 또는 페이지 이동
+        })
+        .catch((err) => {
+          alert('예약 중 오류 발생: ' + err.message);
+        });
+    };
 
-  const inputBaseStyle = {
-    height: "32px",
-    padding: "4px 8px",
-    border: "1px solid #aaa",
-    borderRadius: "6px",
-    fontSize: "14px",
-    outline: "none",
-  };
+    const [form, setForm] = useState({
+        name: '',
+        phone: '',
+        card: ['', '', '', ''],
+        people: '',
+      });
+    
+      const cardRefs = [useRef(), useRef(), useRef(), useRef()];
 
-  const labelStyle = {
-    marginBottom: "10px",
-    fontWeight: "bold",
-  };
+      const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        if (name === 'phone' && !/^\d*$/.test(value)) return;
+        setForm({ ...form, [name]: value });
+      };
+    
+      const handleCardChange = (index, value) => {
+        if (!/^\d*$/.test(value)) return;
 
-  const containerStyle = {
-    width: "400px",
-    margin: "0 auto",
-    padding: "24px",
-    border: "1px solid #aaa",
-    display: "flex",
-    flexDirection: "column",
-    gap: "12px",
-  };
+        const updatedCard = [...form.card];
+        updatedCard[index] = value;
+        setForm({ ...form, card: updatedCard });
 
-  const cardInputStyle = {
-    ...inputBaseStyle,
-    width: "60px",
-    textAlign: "center",
-  };
+        if (value.length === 4 && index < 3) {
+            cardRefs[index + 1].current.focus();
+          }
+      };
+    
+      const isFormComplete =
+        form.name.trim() &&
+        form.phone.trim() &&
+        form.people &&
+        form.card.every((num) => num.trim().length === 4);
+    
+      const inputBaseStyle = {
+        height: '32px',
+        padding: '4px 8px',
+        border: '1px solid #aaa',
+        borderRadius: '6px',
+        fontSize: '14px',
+        outline: 'none',
+      };
+
+      const labelStyle = {
+        marginBottom: '10px',
+        fontWeight: 'bold',
+      };
+    
+      const containerStyle = {
+        width: '400px',
+        margin: '0 auto',
+        padding: '24px',
+        border: '1px solid #aaa',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '12px',
+      };
+    
+      const cardInputStyle = {
+        ...inputBaseStyle,
+        width: '60px',
+        textAlign: 'center',
+      };
 
   return (
-    <div style={{ padding: "40px", textAlign: "center" }}>
-      <h2 style={{ marginBottom: "24px" }}>예약자 정보 입력</h2>
+    <div style={{ 
+      padding: '40px', 
+      textAlign: 'center', 
+      fontFamily: 'content',
+      backgroundColor: '#F9F7F8' }}>
+      <h2 style={{ marginBottom: '24px' }}>예약자 정보 입력</h2>
+
       <div style={containerStyle}>
         <div
           style={{
@@ -86,8 +148,9 @@ function ReservationInfo() {
             style={{
               ...inputBaseStyle,
             }}
-            onFocus={(e) => (e.target.style.background = "#DFF0FA")}
-            onBlur={(e) => (e.target.style.background = "")}
+
+            onFocus={(e) => (e.target.style.background = '#DFF0FA')}
+            onBlur={(e) => (e.target.style.background = '')}
           />
         </div>
 
@@ -156,7 +219,7 @@ function ReservationInfo() {
             onBlur={(e) => (e.target.style.background = "")}
           >
             <option value="">선택</option>
-            {[1, 2, 3, 4, 5, 6].map((num) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
               <option key={num} value={num}>
                 {num}명
               </option>
@@ -167,6 +230,7 @@ function ReservationInfo() {
 
       <button
         disabled={!isFormComplete}
+        onClick={handleSubmit}
         style={{
           marginTop: "24px",
           padding: "8px 16px",

@@ -30,11 +30,22 @@ const Reservation = () => {
 
   const handleNext = () => {
     if (selectedDate && mealType && selectedTable) {
-      navigate("/reservationInfo", {
+        const table = availableTables.find(t => String(t.table_id) === String(selectedTable));
+        
+        console.log("availableTables:", availableTables);
+        console.log("selectedTable:", selectedTable);
+        console.log("navigate로 넘길 table:", table);
+
+        if (!table) {
+            alert("⚠️ 선택한 테이블 정보를 찾을 수 없습니다.");
+            return; // ✅ undefined 상태에서 navigate하지 않도록 반드시 막기
+        }
+
+        navigate('/reservationInfo', {
         state: {
           date: selectedDate,
           meal: mealType,
-          table_id: selectedTable,
+          table,
         },
       });
     } else {

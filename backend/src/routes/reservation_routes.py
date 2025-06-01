@@ -143,6 +143,10 @@ def get_available_tables():
 @reservation_bp.route('/reservations', methods=['POST'])
 def create_reservation():
     data = request.get_json()
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'error': '로그인이 필요합니다.'}), 401
+
 
     required_fields = ['table_id', 'date', 'meal', 'name', 'phone', 'guest_count', 'card']
     if not all(field in data for field in required_fields):
@@ -195,6 +199,33 @@ def create_reservation():
 
         conn.commit()
         return jsonify({'message': '예약 성공!'}), 201
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        conn.close()
+
+@reservation_bp.route('/tables/<int:table_id>', methods=['GET'])
+def get_table_info(table_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute("""
+            SELECT table_id, location, capacity
+            FROM dining_tables
+            WHERE table_id = ?
+        """, (table_id,))
+        row = cursor.fetchone()
+
+        if row:
+            return jsonify({
+                'table_id': row[0],
+                'location': row[1],
+                'capacity': row[2]
+            })
+        else:
+            return jsonify({'error': '해당 테이블 정보를 찾을 수 없습니다.'}), 404
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
