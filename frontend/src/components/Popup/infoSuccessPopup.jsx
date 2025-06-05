@@ -2,13 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const Popup = ({ date, meal, table }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleClose = () => {
-        navigate('/mainpage');
-    };
-  
-    return (
+  const handleClose = () => {
+    navigate("/reservationStatus");
+  };
+
+  return (
     <div
       style={{
         position: "fixed",
@@ -23,7 +23,7 @@ const Popup = ({ date, meal, table }) => {
         zIndex: 1000,
         minWidth: "300px",
         textAlign: "center",
-        fontFamily: "content"
+        fontFamily: "content",
       }}
     >
       <p style={{ fontWeight: "bold", marginBottom: "16px" }}>
@@ -37,17 +37,22 @@ const Popup = ({ date, meal, table }) => {
           marginBottom: "20px",
           textAlign: "left",
           borderRadius: "6px",
-          backgroundColor: "#f9f9f9"
+          backgroundColor: "#f9f9f9",
         }}
       >
-        <p><strong>[예약정보]</strong></p>
+        <p>
+          <strong>[예약정보]</strong>
+        </p>
         <p>날짜: {date}</p>
-        <p>시간: {meal === 'lunch' ? '12:00 (Lunch)' : '18:00 (Dinner)'}</p>
-        <p>테이블: {table.table_id}, {table.location}, {table.capacity}인석</p>
+        <p>시간: {meal === "lunch" ? "12:00 (Lunch)" : "18:00 (Dinner)"}</p>
+        <p>
+          테이블: {table.table_id}, {table.location}, {table.capacity}인석
+        </p>
       </div>
 
       <button
         onClick={handleClose}
+        s
         style={{
           padding: "6px 16px",
           border: "1px solid #999",

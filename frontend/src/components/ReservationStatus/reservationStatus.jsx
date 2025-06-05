@@ -6,17 +6,11 @@ import CancelConfirmPopup from "../Popup/cancelConfirmPopup";
 import CancelSuccessPopup from "../Popup/cancelSuccessPopup";
 import CancelFailPopup from "../Popup/cancelFailPopup";
 
-const formatDateToDisplay = (dateString) => {
-  if (!dateString) return "";
-  return dateString.replace(/-/g, ".");
-};
-
 function ReservationStatus() {
   const parseCustomDateTime = (dateTimeString) => {
     const [datePart, timePart] = dateTimeString.split(" ");
     const [year, month, day] = datePart.split(".").map(Number);
     const [hour, minute] = timePart.split(":").map(Number);
-
     return new Date(year, month - 1, day, hour, minute, 0);
   };
 
@@ -29,6 +23,10 @@ function ReservationStatus() {
   const [targetReservationId, setTargetReservationId] = useState(null);
 
   const navigate = useNavigate();
+  const formatDateToDisplay = (dateString) => {
+    if (!dateString) return "";
+    return dateString.replace(/-/g, ".");
+  };
 
   useEffect(() => {
     const fetchReservations = async () => {

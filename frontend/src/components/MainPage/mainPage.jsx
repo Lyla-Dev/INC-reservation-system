@@ -42,7 +42,7 @@ const MainPage = () => {
 
   const [hoveredIndex, setHoveredIndex] = React.useState(null);
 
-  const blocks = ["예약하기", "예약 확인하기"];
+  const blocks = ["예약하기", "예약 확인/취소"];
 
   const handleLogout = () => {
     setShowConfirmPopup(true);
@@ -78,7 +78,7 @@ const MainPage = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "flex-start",
-        gap: "150px",
+        gap: "90px",
       }}
     >
       <div
